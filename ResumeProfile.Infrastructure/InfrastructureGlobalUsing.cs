@@ -1,6 +1,5 @@
 ﻿global using ResumeProfile.FrameWork.Common;
 global using Microsoft.AspNetCore.Http;
-global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Microsoft.EntityFrameworkCore.Metadata;
 global using ResumeProfile.Domain.Entities.Common;
 global using System.Security.Cryptography;
@@ -16,4 +15,5 @@ global using ResumeProfile.Domain.Entities.Loggers;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Design;
 global using ResumeProfile.Infrastructure.Common;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

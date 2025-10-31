@@ -1,3 +1,5 @@
+using DoctorAppointment.infrastructure.MapConfig.LoggerConfigurations;
+
 namespace ResumeProfile.Infrastructure.Persistence
 {
     public class LogDbContext : DbContext, ILogDbContext
@@ -9,7 +11,7 @@ namespace ResumeProfile.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ErrorHistoryConfiguration());
-            modelBuilder.ApplyConfiguration(new SmsHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new EmailHistoryConfiguration());
             modelBuilder.HasDefaultSchema("dbo");
             base.OnModelCreating(modelBuilder);
         }

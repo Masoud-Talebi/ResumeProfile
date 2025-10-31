@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-
 namespace ResumeProfile.Domain.Entities.IdentityEntities
 {
     public class UserToken:IdentityUserToken<long>

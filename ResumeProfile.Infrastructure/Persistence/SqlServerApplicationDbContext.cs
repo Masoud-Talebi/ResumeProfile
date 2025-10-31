@@ -1,14 +1,16 @@
-﻿namespace ResumeProfile.Infrastructure.Persistence;
+﻿using ResumeProfile.Infrastructure.MapConfig.IdentityConfig;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+namespace ResumeProfile.Infrastructure.Persistence;
 
 public class SqlServerApplicationDbContext : IdentityDbContext<User, Role, long, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IApplicationDbContext
 {
-    public SqlServerApplicationDbContext(DbContextOptions<SqlServerApplicationDbContext> options) : base(options)
+    public SqlServerApplicationDbContext(DbContextOptions<SqlServerApplicationDbContext> options)
+        : base(options)
     {
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("DoctorAppointment");
+        modelBuilder.HasDefaultSchema("ResumeProfile");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
         modelBuilder.OnCreated();
         modelBuilder.OnModified();

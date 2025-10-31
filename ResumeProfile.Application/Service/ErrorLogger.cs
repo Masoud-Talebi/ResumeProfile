@@ -1,10 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using ResumeProfile.Application.Common.Interface;
-using ResumeProfile.Domain.Entities.Loggers;
-using ResumeProfile.Infrastructure.Persistence;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace ResumeProfile.Application.Service;
 
 public class ErrorLogger : IErrorLogger

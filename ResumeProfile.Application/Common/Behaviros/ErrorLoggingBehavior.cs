@@ -1,9 +1,3 @@
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using ResumeProfile.Application.Common.Dtos;
-using ResumeProfile.Application.Common.Interface;
-using ResumeProfile.FrameWork.Common;
-
 namespace ResumeProfile.Application.Common.Behaviros;
 
 public class ErrorLoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
@@ -16,7 +10,7 @@ public class ErrorLoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequ
         _contextAccessor = contextAccessor;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
         try
         {

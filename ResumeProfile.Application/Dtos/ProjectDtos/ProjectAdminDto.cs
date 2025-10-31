@@ -1,14 +1,6 @@
-﻿using ResumeProfile.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResumeProfile.Application.Dtos.ProjectDtos
+﻿namespace ResumeProfile.Application.Dtos.ProjectDtos
 {
-    internal class ProjectAdminDto
+    public class ProjectAdminDto
     {
         [DisplayName("شناسه پروژه")]
         public long Id { get; set; }

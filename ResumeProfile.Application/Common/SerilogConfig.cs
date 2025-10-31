@@ -1,8 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using ResumeProfile.FrameWork.Common;
-using Serilog.Core;
-using Serilog.Events;
 
 namespace ResumeProfile.Application.Common
 {

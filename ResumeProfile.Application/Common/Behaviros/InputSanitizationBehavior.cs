@@ -1,14 +1,9 @@
-using MediatR;
-using System.Net;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
 namespace ResumeProfile.Application.Common.Behaviros;
 
 public class InputSanitizationBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
         var stringProperties = request
             .GetType()
@@ -65,6 +60,4 @@ public class InputSanitizationBehavior<TRequest, TResponse>
             Regex.IsMatch(normalized, p, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled)
         );
     }
-
-
 }

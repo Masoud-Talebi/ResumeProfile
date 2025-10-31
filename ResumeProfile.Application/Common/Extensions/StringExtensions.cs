@@ -1,7 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
 namespace ResumeProfile.Application.Common.Extensions;
 
 public static class StringExtensions

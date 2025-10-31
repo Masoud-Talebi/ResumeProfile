@@ -1,9 +1,4 @@
-﻿using DoctorAppointment.Application.Common.Gateways.Zibal;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using DoctorAppointment.Application.Common.Behaviros;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+﻿
 
 namespace ResumeProfile.Application.Common
 {
@@ -13,7 +8,7 @@ namespace ResumeProfile.Application.Common
         {
 
             #region serilog
-            var logConStr = AESService.Decrypt(configuration.GetConnectionString("LogDbConnection"));
+            var logConStr = configuration.GetConnectionString("LogDbConnection");
             Log.Logger = new LoggerConfiguration()
             .Enrich.With(new ShadowPropertyEnricher(new HttpContextAccessor(), configuration))
             .Enrich.FromLogContext()
@@ -29,24 +24,8 @@ namespace ResumeProfile.Application.Common
             services.AddHttpClient();
             services.AddMemoryCache();
             services.AddScoped<IErrorLogger, ErrorLogger>();
-            services.AddHttpClient<IInsuranceApiService, InsuranceApiService>();
-            services.AddScoped<IInsurancePaymentService, InsurancePaymentService>();
-            services.AddScoped<IInsuranceService, InsuranceService>();
-            services.AddScoped<ICaptchaService, CaptchaService>();
-            services.AddScoped<IScheduleService, ScheduleService>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IPatientInsuranceService, PatientInsuranceService>();
-            services.AddScoped<IDoctorService, DoctorService>();
-            services.AddScoped<ISettingService, SettingService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(ILogRepository<>), typeof(LogRepository<>));
-            services.AddScoped<ISmsHistoryService, SmsHistoryService>();
-            services.AddScoped<ISmsService, SmsService>();
-            services.AddScoped<IBookingPaymentService, BookingPaymentService>();
-            services.AddScoped<IBookingService, BookingService>();
-            services.AddHttpClient<IZibalService, ZibalService>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             #endregion

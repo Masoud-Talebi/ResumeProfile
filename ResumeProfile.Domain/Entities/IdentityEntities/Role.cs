@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace ResumeProfile.Domain.Entities.IdentityEntities
+﻿namespace ResumeProfile.Domain.Entities.IdentityEntities
 {
     public class Role : IdentityRole<long>,ICreatedEntity,IModifiedEntity,ISoftDeleted
     {

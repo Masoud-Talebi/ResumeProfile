@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 namespace ResumeProfile.Infrastructure.Interceptors
 {
     public class SaveChangesInterceptor : Microsoft.EntityFrameworkCore.Diagnostics.SaveChangesInterceptor
@@ -48,37 +50,38 @@ namespace ResumeProfile.Infrastructure.Interceptors
         }
         public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
-            //if (eventData.Context is null)
-            //    return base.SavingChangesAsync(eventData, result, cancellationToken);
+            if (eventData.Context is null)
+                return base.SavingChangesAsync(eventData, result);
 
-            //var currentUserId = _contextAccessor.HttpContext.GetUserId();
-            //var currentUserIP = _contextAccessor.HttpContext.GetUserIP();
+            var currentUserId = _contextAccessor.HttpContext.GetUserId();
+            var currentUserIP = _contextAccessor.HttpContext.GetUserIP();
 
-            //foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added))
-            //{
+            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added))
+            {
 
-            //    entry.Property("CreatedDateTime").CurrentValue = DateTime.UtcNow;
-            //    entry.Property("CreatedByUserId").CurrentValue = currentUserId;
-            //    entry.Property("CreatedByIP").CurrentValue = currentUserIP;
-            //}
+                entry.Property("CreatedDateTime").CurrentValue = DateTime.UtcNow;
+                entry.Property("CreatedByUserId").CurrentValue = currentUserId;
+                entry.Property("CreatedByIP").CurrentValue = currentUserIP;
+            }
 
-            //foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified))
-            //{
+            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified))
+            {
 
-            //    entry.Property("ModifiedDateTime").CurrentValue = DateTime.UtcNow;
-            //    entry.Property("ModifiedByUserId").CurrentValue = currentUserId;
-            //    entry.Property("ModifiedByIP").CurrentValue = currentUserIP;
-            //}
+                entry.Property("ModifiedDateTime").CurrentValue = DateTime.UtcNow;
+                entry.Property("ModifiedByUserId").CurrentValue = currentUserId;
+                entry.Property("ModifiedByIP").CurrentValue = currentUserIP;
+            }
 
-            //foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted))
-            //{
+            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted))
+            {
 
-            //    entry.State = EntityState.Modified;
-            //    entry.Property("DeletedDateTime").CurrentValue = DateTime.UtcNow;
-            //    entry.Property("DeletedByUserId").CurrentValue = currentUserId;
-            //    entry.Property("DeletedByIP").CurrentValue = currentUserIP;
-            //    entry.Property("IsDeleted").CurrentValue = true;
-            //}
+                entry.State = EntityState.Modified;
+                entry.Property("DeletedDateTime").CurrentValue = DateTime.UtcNow;
+                entry.Property("DeletedByUserId").CurrentValue = currentUserId;
+                entry.Property("DeletedByIP").CurrentValue = currentUserIP;
+                entry.Property("IsDeleted").CurrentValue = true;
+            }
+
             return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
     }

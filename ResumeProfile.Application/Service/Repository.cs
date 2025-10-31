@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using ResumeProfile.Application.Common.Interface;
-using ResumeProfile.Domain.Entities.Common;
-using ResumeProfile.Infrastructure.Persistence;
-
 namespace ResumeProfile.Application.Service
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity<long>
@@ -38,7 +33,7 @@ namespace ResumeProfile.Application.Service
             await SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Guid Id)
+        public async Task DeleteAsync(long Id)
         {
             var entity = await GetByIdAsync(Id);
             await DeleteAsync(entity);
@@ -55,7 +50,7 @@ namespace ResumeProfile.Application.Service
             return entities.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(Guid Id)
+        public async Task<TEntity> GetByIdAsync(long Id)
         {
             var entity = await entities.Where(x => x.Id == Id).FirstOrDefaultAsync();
             if (entity == null)

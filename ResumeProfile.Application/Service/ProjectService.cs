@@ -1,16 +1,4 @@
-﻿using AutoMapper;
-using ResumeProfile.Application.Common.Interface;
-using ResumeProfile.Application.Dtos.ProjectDtos;
-using ResumeProfile.Domain.Entities;
-using ResumeProfile.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResumeProfile.Application.Service
+﻿namespace ResumeProfile.Application.Service
 {
     public class ProjectService : Repository<Project>, IProjectService
     {
