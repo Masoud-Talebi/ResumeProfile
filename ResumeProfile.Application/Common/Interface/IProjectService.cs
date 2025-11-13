@@ -7,5 +7,6 @@
         Task<ProjectDetailDto> GetProjectDetailById(long projectId);
         Task<long> CreateProject(CreateProjectDto createProject);
         Task<long> UpdateProject(UpdateProjectDto updateProject);
+        Task RemoveProject(long projectId);
     }
 }

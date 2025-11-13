@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using ResumeProfile.API.Middlewares;
 using ResumeProfile.Application.Common;
+using ResumeProfile.Application.Common.Initializer;
 using ResumeProfile.Infrastructure.Common;
 using Serilog;
 using System.Reflection;
@@ -10,12 +11,14 @@ namespace DoctorAppointment.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.ConfigureService(builder.Configuration);
             builder.Services.ApplicationConfigureServices(builder.Configuration);
+            builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
 
             builder.Services.AddCors(options =>
             {
@@ -94,6 +97,12 @@ namespace DoctorAppointment.Web
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+                await initializer.Initialize();
+            }
 
             app.UseEndpoints(endpoints =>
             {

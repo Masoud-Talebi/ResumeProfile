@@ -4,7 +4,7 @@
     {
         public IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public ProjectService(IApplicationDbContext context,IMapper mapper) : base(context)
+        public ProjectService(IApplicationDbContext context, IMapper mapper) : base(context)
         {
             _context = context;
             _mapper = mapper;
@@ -16,24 +16,35 @@
             return project.Id;
         }
 
-        public Task<IEnumerable<ProjectDto>> GetAllProjects()
+        public async Task<IEnumerable<ProjectDto>> GetAllProjects()
         {
-            throw new NotImplementedException();
+            var project = await base.EntitiesAsNoTracking.ToListAsync();
+            return _mapper.Map<IEnumerable<ProjectDto>>(project);
         }
 
-        public Task<ProjectDetailDto> GetProjectDetailById(long projectId)
+        public async Task<ProjectDetailDto> GetProjectDetailById(long projectId)
         {
-            throw new NotImplementedException();
+            var project = await base.GetByIdAsync(projectId);
+            return _mapper.Map<ProjectDetailDto>(project);
         }
 
-        public Task<long> UpdateProject(UpdateProjectDto updateProject)
+        public async Task<long> UpdateProject(UpdateProjectDto updateProject)
         {
-            throw new NotImplementedException();
+            var project = _mapper.Map<Project>(updateProject);
+            await base.UpdateAsync(project);
+            return project.Id;
         }
 
-        Task<IEnumerable<ProjectAdminDto>> IProjectService.GetAllProjectsAdmin()
+        public async Task<IEnumerable<ProjectAdminDto>> GetAllProjectsAdmin()
         {
-            throw new NotImplementedException();
+            var project = await base.EntitiesAsNoTracking.ToListAsync();
+            return _mapper.Map<IEnumerable<ProjectAdminDto>>(project);
+        }
+        public async Task RemoveProject(long projectId)
+        {
+            var project = await base.GetByIdAsync(projectId);
+            if (project != null)
+                await base.DeleteAsync(project);
         }
     }
 }

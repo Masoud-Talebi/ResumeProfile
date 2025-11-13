@@ -1,6 +1,4 @@
-﻿
-
-namespace ResumeProfile.Application.Common
+﻿namespace ResumeProfile.Application.Common
 {
     public static class ApplicationStartup
     {
@@ -26,7 +24,10 @@ namespace ResumeProfile.Application.Common
             services.AddScoped<IErrorLogger, ErrorLogger>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(ILogRepository<>), typeof(LogRepository<>));
-
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<IApplicationSettingService, ApplicationSettingService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             #endregion
 

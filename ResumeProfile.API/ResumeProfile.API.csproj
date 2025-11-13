@@ -4,6 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <!-- ✅ اضافه کن -->
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <NoWarn>1591</NoWarn>
+	  <!-- برای جلوگیری از هشدار مستندات ناقص -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,10 +22,6 @@
     <ProjectReference Include="..\ResumeProfile.Application\ResumeProfile.Application.csproj" />
     <ProjectReference Include="..\ResumeProfile.FrameWork\ResumeProfile.FrameWork.csproj" />
     <ProjectReference Include="..\ResumeProfile.Infrastructure\ResumeProfile.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

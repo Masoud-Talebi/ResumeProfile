@@ -6,7 +6,7 @@
         public long Id { get; set; }
 
         [DisplayName("تصویر پروژه")]
-        public byte[]? Image { get; set; }
+        public string? ImageBase64 { get; set; }
 
         [DisplayName("عنوان")]
         public required string Title { get; set; }
@@ -23,7 +23,7 @@
         [DisplayName("وضعیت پروژه")]
         public ProjectState ProjectState { get; set; }
 
-        [DisplayName("تاریخ ایجاد")]
-        public DateTime CreateAt { get; set; }
+        [DisplayName("تاریخ تکمیل")]
+        public DateTime? CompletionDate { get; set; }
     }
 }

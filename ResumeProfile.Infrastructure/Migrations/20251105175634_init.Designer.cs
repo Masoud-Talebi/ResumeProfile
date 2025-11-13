@@ -12,8 +12,8 @@ using ResumeProfile.Infrastructure.Persistence;
 namespace ResumeProfile.Infrastructure.Migrations
 {
     [DbContext(typeof(LogDbContext))]
-    [Migration("20251031140101_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251105175634_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

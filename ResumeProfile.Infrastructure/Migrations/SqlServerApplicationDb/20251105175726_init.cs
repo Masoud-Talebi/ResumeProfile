@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,6 +29,16 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     Profile = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     License = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicenseValid = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -44,6 +54,16 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -60,6 +80,16 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -134,6 +164,17 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     Decription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProjectState = table.Column<int>(type: "int", nullable: false),
+                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -150,6 +191,16 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -164,6 +215,13 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RoleId = table.Column<long>(type: "bigint", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -187,6 +245,13 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -210,6 +275,13 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -233,7 +305,13 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 columns: table => new
                 {
                     UserId = table.Column<long>(type: "bigint", nullable: false),
-                    RoleId = table.Column<long>(type: "bigint", nullable: false)
+                    RoleId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -284,14 +362,14 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
             migrationBuilder.InsertData(
                 schema: "ResumeProfile",
                 table: "AppRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { 1L, null, null, "admin", "ADMIN" });
+                columns: new[] { "Id", "ConcurrencyStamp", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Description", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "Name", "NormalizedName" },
+                values: new object[] { 1L, null, null, null, null, null, null, null, null, null, null, "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 schema: "ResumeProfile",
                 table: "ApplicationSettings",
-                columns: new[] { "Id", "AboutMe", "Email", "FirstName", "IsActive", "LastName", "License", "LicenseValid", "Profession", "Profile" },
-                values: new object[] { 1L, "lorem", "info@example.com", "Resume", false, "Profile", "...", false, "Asp.net core Programmer", null });
+                columns: new[] { "Id", "AboutMe", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Email", "FirstName", "IsActive", "LastName", "License", "LicenseValid", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "Profession", "Profile" },
+                values: new object[] { 1L, "lorem", null, null, null, null, null, "info@example.com", "Resume", false, "Profile", "...", false, null, null, null, "Asp.net core Programmer", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppRoleClaims_RoleId",

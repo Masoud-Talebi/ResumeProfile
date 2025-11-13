@@ -6,7 +6,7 @@
         public long Id { get; set; }
 
         [DisplayName("تصویر پروژه")]
-        public byte[]? Image { get; set; }
+        public string? ImageBase64 { get; set; }
 
         [DisplayName("عنوان")]
         public required string Title { get; set; }

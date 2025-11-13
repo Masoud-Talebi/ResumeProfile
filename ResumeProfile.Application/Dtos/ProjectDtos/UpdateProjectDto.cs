@@ -6,7 +6,7 @@
         public long Id { get; set; }
 
         [DisplayName("تصویر پروژه")]
-        public byte[]? Image { get; set; }
+        public IFormFile? Images { get; set; }
 
         [Required(ErrorMessage = "عنوان پروژه الزامی است")]
         [DisplayName("عنوان")]
@@ -24,5 +24,8 @@
 
         [DisplayName("وضعیت پروژه")]
         public ProjectState ProjectState { get; set; }
+
+        [DisplayName("تاریخ تکمیل")]
+        public DateTime? CompletionDate { get; set; }
     }
 }

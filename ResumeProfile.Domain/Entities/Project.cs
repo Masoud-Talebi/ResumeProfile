@@ -27,9 +27,29 @@ namespace ResumeProfile.Domain.Entities
         /// وضعیت پروژه
         /// </summary>
         public ProjectState ProjectState { get; set; }
+
+        /// <summary>
+        /// تاریخ تکمیل
+        /// </summary>
+        public DateTime? CompletionDate { get; set; }
     }
     public enum ProjectState
     {
+        /// <summary>
+        /// در حال انجام
+        /// </summary>
+        InProgress = 0,
 
+        /// <summary>
+        /// تکمیل شده
+        /// </summary>
+        Completed = 1,
+
+        /// <summary>
+        /// منتشر شده
+        /// </summary>
+        Published = 2
     }
+
+
 }

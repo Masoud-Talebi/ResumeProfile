@@ -16,11 +16,18 @@ namespace ResumeProfile.Infrastructure.Interceptors
         {
             if (eventData.Context is null)
                 return base.SavingChanges(eventData, result);
+            var entries = eventData.Context.ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is BaseEntity)
+                .ToList();
+
+            if (!entries.Any())
+                return base.SavingChanges(eventData, result);
 
             var currentUserId = _contextAccessor.HttpContext.GetUserId();
             var currentUserIP = _contextAccessor.HttpContext.GetUserIP();
 
-            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added))
+            foreach (var entry in entries.Where(x => x.State == EntityState.Added))
             {
 
                 entry.Property("CreatedDateTime").CurrentValue = DateTime.UtcNow;
@@ -28,7 +35,7 @@ namespace ResumeProfile.Infrastructure.Interceptors
                 entry.Property("CreatedByIP").CurrentValue = currentUserIP;
             }
             
-            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified))
+            foreach (var entry in entries.Where(x => x.State == EntityState.Modified))
             {
 
                 entry.Property("ModifiedDateTime").CurrentValue = DateTime.UtcNow;
@@ -36,7 +43,7 @@ namespace ResumeProfile.Infrastructure.Interceptors
                 entry.Property("ModifiedByIP").CurrentValue = currentUserIP;
             }
 
-            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted))
+            foreach (var entry in entries.Where(p => p.State == EntityState.Deleted))
             {
 
                 entry.State = EntityState.Modified;
@@ -53,10 +60,18 @@ namespace ResumeProfile.Infrastructure.Interceptors
             if (eventData.Context is null)
                 return base.SavingChangesAsync(eventData, result);
 
+            var entries = eventData.Context.ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is BaseEntity)
+                .ToList();
+
+            if (!entries.Any())
+                return base.SavingChangesAsync(eventData, result);
+
             var currentUserId = _contextAccessor.HttpContext.GetUserId();
             var currentUserIP = _contextAccessor.HttpContext.GetUserIP();
 
-            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added))
+            foreach (var entry in entries.Where(x => x.State == EntityState.Added))
             {
 
                 entry.Property("CreatedDateTime").CurrentValue = DateTime.UtcNow;
@@ -64,7 +79,7 @@ namespace ResumeProfile.Infrastructure.Interceptors
                 entry.Property("CreatedByIP").CurrentValue = currentUserIP;
             }
 
-            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified))
+            foreach (var entry in entries.Where(x => x.State == EntityState.Modified))
             {
 
                 entry.Property("ModifiedDateTime").CurrentValue = DateTime.UtcNow;
@@ -72,7 +87,7 @@ namespace ResumeProfile.Infrastructure.Interceptors
                 entry.Property("ModifiedByIP").CurrentValue = currentUserIP;
             }
 
-            foreach (var entry in eventData.Context.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted))
+            foreach (var entry in entries.Where(p => p.State == EntityState.Deleted))
             {
 
                 entry.State = EntityState.Modified;

@@ -15,7 +15,7 @@ public class ErrorLogger : IErrorLogger
 
         if (await _logContext.ErrorHistories.AnyAsync(x => x.ErrorCode == errorCode))
             errorCode = GenerateCode(6);
-            
+
         var error = new ErrorHistory
         {
             ErrorCode = errorCode,
