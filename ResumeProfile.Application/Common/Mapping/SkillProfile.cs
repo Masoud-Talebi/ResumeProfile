@@ -1,4 +1,3 @@
-using AutoMapper;
 using ResumeProfile.Application.Dtos.SkillDtos;
 
 namespace ResumeProfile.Application.Common.Mapping

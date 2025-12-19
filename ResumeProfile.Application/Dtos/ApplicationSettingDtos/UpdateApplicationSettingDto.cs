@@ -1,4 +1,3 @@
-using System.ComponentModel;
 
 namespace ResumeProfile.Application.Dtos.ApplicationSettingDtos
 {
@@ -23,12 +22,9 @@ namespace ResumeProfile.Application.Dtos.ApplicationSettingDtos
         public required string Profession { get; set; }
 
         [DisplayName("تصویر پروفایل")]
-        public byte[]? Profile { get; set; }
+        public IFormFile? Images { get; set; }
 
         [DisplayName("لایسنس")]
         public required string License { get; set; }
-
-        [DisplayName("وضعیت لایسنس")]
-        public bool LicenseValid { get; set; }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResumeProfile.Infrastructure.MapConfig
+﻿namespace ResumeProfile.Infrastructure.MapConfig
 {
     public class ApplicationSettingConfiguration : IEntityTypeConfiguration<ApplicationSetting>
     {
@@ -15,7 +9,7 @@ namespace ResumeProfile.Infrastructure.MapConfig
                 Id = 1,
                 FirstName = "Resume",
                 LastName = "Profile",
-                AboutMe = "lorem",
+                AboutMe = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
                 Email = "info@example.com",
                 License = "...",
                 Profession = "Asp.net core Programmer",

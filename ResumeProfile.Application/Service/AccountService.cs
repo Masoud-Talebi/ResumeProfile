@@ -1,8 +1,3 @@
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using ResumeProfile.Application.Common;
-using ResumeProfile.Application.Dtos.AccountDtos;
-
 namespace ResumeProfile.Application.Service
 {
     public class AccountService : IAccountService

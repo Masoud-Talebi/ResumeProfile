@@ -46,5 +46,14 @@
             if (project != null)
                 await base.DeleteAsync(project);
         }
+        public async Task<bool> ShowOn(long id, bool show)
+        {
+            var skill = await base.GetByIdAsync(id);
+            if (skill == null)
+                return false;
+            skill.ShowOnSite = show;
+            await base.SaveChangesAsync();
+            return true;
+        }
     }
 }

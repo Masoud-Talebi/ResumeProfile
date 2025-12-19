@@ -16,6 +16,7 @@
         DbSet<ApplicationSetting> ApplicationSettings { get; set; }
         DbSet<Project> Projects { get; set; }
         DbSet<Skill> Skills { get; set; }
+        DbSet<Certificate> Certificates { get; set; }
 
     }
 }

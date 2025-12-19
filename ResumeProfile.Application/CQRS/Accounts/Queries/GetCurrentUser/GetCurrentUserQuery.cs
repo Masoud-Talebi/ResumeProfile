@@ -1,7 +1,3 @@
-using MediatR;
-using ResumeProfile.Application.Dtos.AccountDtos;
-using ResumeProfile.Application.Service;
-
 namespace ResumeProfile.Application.CQRS.Accounts.Queries.GetCurrentUser
 {
     [Display(Name = "دریافت اطلاعات کاربر فعلی")]

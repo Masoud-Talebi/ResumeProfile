@@ -1,11 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using ResumeProfile.Application.Common;
-using ResumeProfile.Application.Dtos.AccountDtos;
-using Microsoft.IdentityModel.Tokens;
-using IdentityModel;
-
 namespace ResumeProfile.Application.CQRS.Accounts.Commands.Login
 {
     [Display(Name = "ورود کاربر")]

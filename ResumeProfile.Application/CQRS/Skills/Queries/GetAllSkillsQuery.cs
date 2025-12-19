@@ -1,7 +1,3 @@
-using MediatR;
-using ResumeProfile.Application.Dtos.SkillDtos;
-using System.ComponentModel.DataAnnotations;
-
 namespace ResumeProfile.Application.CQRS.Skills.Queries
 {
     [Display(Name = "دریافت تمام مهارت‌ها")]

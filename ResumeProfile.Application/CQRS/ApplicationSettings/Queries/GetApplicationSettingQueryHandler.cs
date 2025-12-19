@@ -1,6 +1,3 @@
-using MediatR;
-using ResumeProfile.Application.Dtos.ApplicationSettingDtos;
-
 namespace ResumeProfile.Application.CQRS.ApplicationSettings.Queries
 {
     public class GetApplicationSettingQuery : IRequest<ApplicationSettingDto?>

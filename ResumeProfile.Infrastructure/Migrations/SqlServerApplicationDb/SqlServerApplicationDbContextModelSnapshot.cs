@@ -23,6 +23,123 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ResumeProfile.Domain.Entities.Certificate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CreatedByIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("CreatedByUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("DeletedByIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("DeletedByUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("ModifiedByIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ModifiedByUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SVG")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ShowOnSite")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("certificate_org")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("certificate_year")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Certificates", "ResumeProfile");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Description = "Professional certification by Microsoft.",
+                            IsActive = false,
+                            SVG = 4,
+                            ShowOnSite = true,
+                            Title = "Advanced C# Programming",
+                            certificate_org = "Microsoft",
+                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6267)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Description = "Certified training in managing Windows Server & Active Directory.",
+                            IsActive = false,
+                            SVG = 7,
+                            ShowOnSite = true,
+                            Title = "Windows Server 2019",
+                            certificate_org = "Microsoft",
+                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6288)
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Description = "Core Linux server management and command-line essentials.",
+                            IsActive = false,
+                            SVG = 6,
+                            ShowOnSite = true,
+                            Title = "Linux Administration Basics",
+                            certificate_org = "Linux Foundation",
+                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6290)
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Description = "Mastery in creating and managing Docker containers.",
+                            IsActive = false,
+                            SVG = 5,
+                            ShowOnSite = true,
+                            Title = "Docker Containerization Expert",
+                            certificate_org = "Docker Inc",
+                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6292)
+                        });
+                });
+
             modelBuilder.Entity("ResumeProfile.Domain.Entities.Common.ApplicationSetting", b =>
                 {
                     b.Property<long>("Id")
@@ -98,6 +215,9 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     b.Property<byte[]>("Profile")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<bool>("ShowOnSite")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("ApplicationSettings", "ResumeProfile");
@@ -106,14 +226,15 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                         new
                         {
                             Id = 1L,
-                            AboutMe = "lorem",
+                            AboutMe = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
                             Email = "info@example.com",
                             FirstName = "Resume",
                             IsActive = false,
                             LastName = "Profile",
                             License = "...",
                             LicenseValid = false,
-                            Profession = "Asp.net core Programmer"
+                            Profession = "Asp.net core Programmer",
+                            ShowOnSite = false
                         });
                 });
 
@@ -647,6 +768,9 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     b.Property<int>("ProjectState")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ShowOnSite")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");
 
@@ -657,6 +781,28 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     b.HasKey("Id");
 
                     b.ToTable("Projects", "ResumeProfile");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CompletionDate = new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6098),
+                            Decription = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.",
+                            IsActive = false,
+                            ProjectState = 1,
+                            ShowOnSite = true,
+                            Title = "Asp.net Project"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CompletionDate = new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6110),
+                            Decription = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.",
+                            IsActive = false,
+                            ProjectState = 1,
+                            ShowOnSite = true,
+                            Title = "Windows Form Project"
+                        });
                 });
 
             modelBuilder.Entity("ResumeProfile.Domain.Entities.Skill", b =>
@@ -711,9 +857,46 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("ShowOnSite")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Skills", "ResumeProfile");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = false,
+                            Level = 80,
+                            Name = "C#",
+                            ShowOnSite = true
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = false,
+                            Level = 50,
+                            Name = "React",
+                            ShowOnSite = true
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = false,
+                            Level = 70,
+                            Name = "Js",
+                            ShowOnSite = true
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = false,
+                            Level = 90,
+                            Name = "Asp.net Core",
+                            ShowOnSite = true
+                        });
                 });
 
             modelBuilder.Entity("ResumeProfile.Domain.Entities.IdentityEntities.RoleClaim", b =>

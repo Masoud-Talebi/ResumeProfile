@@ -13,7 +13,7 @@ namespace ResumeProfile.Infrastructure.Common
             services.AddDbContextPool<IApplicationDbContext, SqlServerApplicationDbContext>((sp, options) =>
             {
 
-                var conStr = configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("connection database invalid");
+                var conStr = AESService.Decrypt(configuration.GetConnectionString("DefaultConnection")) ?? throw new Exception("connection database invalid");
                 options.UseSqlServer(conStr).AddInterceptors(sp.GetRequiredService<SaveChangesInterceptor>());
             }, poolSize: 16);
 

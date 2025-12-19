@@ -12,7 +12,7 @@ using ResumeProfile.Infrastructure.Persistence;
 namespace ResumeProfile.Infrastructure.Migrations
 {
     [DbContext(typeof(LogDbContext))]
-    [Migration("20251105175634_init")]
+    [Migration("20251203105054_init")]
     partial class init
     {
         /// <inheritdoc />

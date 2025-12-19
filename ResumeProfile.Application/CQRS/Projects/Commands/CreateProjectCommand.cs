@@ -1,9 +1,4 @@
-﻿using MediatR;
-using System.ComponentModel.DataAnnotations;
-using ResumeProfile.Application.Dtos.ProjectDtos;
-using ResumeProfile.Application.Service;
-
-namespace ResumeProfile.Application.CQRS.Projects.Commands
+﻿namespace ResumeProfile.Application.CQRS.Projects.Commands
 {
     [Display(Name = "ایجاد پروژه")]
     public class CreateProjectCommand : CreateProjectDto, IRequest<long>

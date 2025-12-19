@@ -9,5 +9,6 @@ namespace ResumeProfile.Application.Common.Interface
         Task<bool> DeleteSkill(long skillId);
         Task<IEnumerable<SkillDto>> GetAllSkills();
         Task<SkillDto> GetSkillById(long skillId);
+        Task<bool> ShowOn(long id, bool show);
     }
 }

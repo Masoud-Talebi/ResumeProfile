@@ -1,5 +1,3 @@
-using ResumeProfile.Application.Dtos.SkillDtos;
-
 namespace ResumeProfile.Application.CQRS.Skills.Queries;
 
 [Display(Name = "دریافت جزئیات مهارت")]

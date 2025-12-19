@@ -1,10 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using ResumeProfile.Application.Common;
-using ResumeProfile.Application.Dtos.AccountDtos;
-
-namespace ResumeProfile.Application.CQRS.Accounts.Commands.ChangePasswordUserName
+﻿namespace ResumeProfile.Application.CQRS.Accounts.Commands.ChangePasswordUserName
 {
     [Display(Name = "ویرایش حساب کاربری")]
     public class UpdateAccountCommand : UpdateAccountDto,IRequest<UpdateAccountResponseDto>

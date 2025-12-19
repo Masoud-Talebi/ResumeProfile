@@ -84,5 +84,18 @@ namespace ResumeProfile.API.Controllers
 
             return Ok(new { Message = "پروژه با موفقیت حذف شد." });
         }
+        /// <summary>
+        /// نمایش پروژه
+        /// </summary>
+        [HttpPost("{id:long}")]
+        public async Task<IActionResult> Showon(long id, bool show)
+        {
+            var result = await _mediator.Send(new ShowOnCommandCommand { Id = id, show = show });
+
+            if (!result)
+                return BadRequest(new { Message = "نمایش پروژه انجام نشد." });
+
+            return Ok(new { Message = "پروژه با موفقیت نمایش داده شد." });
+        }
     }
 }

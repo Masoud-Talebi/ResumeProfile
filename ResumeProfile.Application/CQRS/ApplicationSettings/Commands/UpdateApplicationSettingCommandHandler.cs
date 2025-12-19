@@ -1,7 +1,3 @@
-using MediatR;
-using ResumeProfile.Application.Common.Interface;
-using ResumeProfile.Application.Dtos.ApplicationSettingDtos;
-
 namespace ResumeProfile.Application.CQRS.ApplicationSettings.Commands
 {
     public class UpdateApplicationSettingCommand : IRequest<long>

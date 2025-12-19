@@ -1,8 +1,4 @@
-﻿using MediatR;
-using ResumeProfile.Application.Dtos.ProjectDtos;
-using ResumeProfile.Application.Service;
-
-namespace ResumeProfile.Application.CQRS.Projects.Queries
+﻿namespace ResumeProfile.Application.CQRS.Projects.Queries
 {
     [Display(Name = "دریافت لیست پروژه‌ها برای ادمین")]
     public class GetAllProjectsAdminQuery : IRequest<IEnumerable<ProjectAdminDto>>

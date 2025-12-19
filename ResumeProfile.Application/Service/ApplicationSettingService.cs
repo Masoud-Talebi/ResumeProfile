@@ -1,10 +1,3 @@
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using ResumeProfile.Application.Common.Interface;
-using ResumeProfile.Application.Dtos.ApplicationSettingDtos;
-using ResumeProfile.Domain.Entities.Common;
-using ResumeProfile.Infrastructure.Persistence;
-
 namespace ResumeProfile.Application.Service
 {
     public class ApplicationSettingService : Repository<ApplicationSetting>, IApplicationSettingService

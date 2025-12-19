@@ -5,7 +5,8 @@ namespace ResumeProfile.Domain.Entities.Common
         [Required]
         [Display(Name = "شناسه")]
         public long Id { get; set; }
-        public bool IsActive { get; set; } 
+        public bool IsActive { get; set; }
+        public bool ShowOnSite { get; set; }
     }
 
 

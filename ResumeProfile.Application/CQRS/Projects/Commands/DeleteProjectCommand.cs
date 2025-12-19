@@ -1,8 +1,4 @@
-﻿using MediatR;
-using System.ComponentModel.DataAnnotations;
-using ResumeProfile.Application.Service;
-
-namespace ResumeProfile.Application.CQRS.Projects.Commands
+﻿namespace ResumeProfile.Application.CQRS.Projects.Commands
 {
     [Display(Name = "حذف پروژه")]
     public class DeleteProjectCommand : IRequest<bool>

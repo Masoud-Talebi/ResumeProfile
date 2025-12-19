@@ -33,5 +33,13 @@ global using Serilog.Events;
 global using System.ComponentModel;
 global using Microsoft.EntityFrameworkCore;
 global using ResumeProfile.Domain.Entities.Loggers;
-
+global using ResumeProfile.Application.Dtos.CertificateDtos;
 global using System.Security.Cryptography;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.Extensions.Options;
+global using ResumeProfile.Application.Common;
+global using ResumeProfile.Application.Dtos.AccountDtos;
+global using IdentityModel;
+global using ResumeProfile.Application.Dtos.ApplicationSettingDtos;
+global using ResumeProfile.Application.Dtos.SkillDtos;

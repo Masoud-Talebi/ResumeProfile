@@ -8,5 +8,6 @@
         Task<long> CreateProject(CreateProjectDto createProject);
         Task<long> UpdateProject(UpdateProjectDto updateProject);
         Task RemoveProject(long projectId);
+        Task<bool> ShowOn(long id, bool show);
     }
 }

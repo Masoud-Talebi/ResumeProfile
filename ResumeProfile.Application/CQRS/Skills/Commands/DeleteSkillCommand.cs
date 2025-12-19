@@ -1,6 +1,3 @@
-using MediatR;
-using System.ComponentModel.DataAnnotations;
-
 namespace ResumeProfile.Application.CQRS.Skills.Commands
 {
     [Display(Name = "حذف مهارت")]

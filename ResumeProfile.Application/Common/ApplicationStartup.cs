@@ -6,7 +6,7 @@
         {
 
             #region serilog
-            var logConStr = configuration.GetConnectionString("LogDbConnection");
+            var logConStr = AESService.Decrypt(configuration.GetConnectionString("LogDbConnection"));
             Log.Logger = new LoggerConfiguration()
             .Enrich.With(new ShadowPropertyEnricher(new HttpContextAccessor(), configuration))
             .Enrich.FromLogContext()
@@ -27,6 +27,7 @@
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<ICertificateService, CertificateService>();
             services.AddScoped<IApplicationSettingService, ApplicationSettingService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             #endregion

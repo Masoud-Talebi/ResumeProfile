@@ -1,4 +1,3 @@
-using System.ComponentModel;
 
 namespace ResumeProfile.Application.Dtos.SkillDtos
 {
@@ -12,5 +11,8 @@ namespace ResumeProfile.Application.Dtos.SkillDtos
 
         [DisplayName("سطح مهارت")]
         public int Level { get; set; }
+
+        [DisplayName("نمایش در صفحه اصلی")]
+        public bool ShowOnSite { get; set; }
     }
 }

@@ -16,5 +16,8 @@
 
         [DisplayName("توضیح کوتاه")]
         public required string Decription { get; set; }
+
+        [DisplayName("نمایش در صفحه اصلی")]
+        public bool ShowOnSite { get; set; }
     }
 }

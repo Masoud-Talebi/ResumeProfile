@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace ResumeProfile.Application.Dtos.SkillDtos
 {

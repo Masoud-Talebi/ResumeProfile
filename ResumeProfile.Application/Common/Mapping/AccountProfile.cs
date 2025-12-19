@@ -1,7 +1,3 @@
-using AutoMapper;
-using ResumeProfile.Domain.Entities;
-using ResumeProfile.Application.Dtos.AccountDtos;
-
 namespace ResumeProfile.Application.Common.Mapping
 {
     public class AccountProfile : Profile

@@ -16,5 +16,8 @@
 
         [DisplayName("تاریخ تکمیل")]
         public DateTime? CompletionDate { get; set; }
+
+        [DisplayName("نمایش در صفحه اصلی")]
+        public bool ShowOnSite { get; set; }
     }
 }

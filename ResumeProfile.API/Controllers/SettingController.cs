@@ -29,7 +29,7 @@ namespace ResumeProfile.API.Controllers
         /// ویرایش تنظیمات کلی سایت (نام، درباره من، ایمیل و ...)
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateApplicationSettingCommand command)
+        public async Task<IActionResult> Update([FromForm] UpdateApplicationSettingCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

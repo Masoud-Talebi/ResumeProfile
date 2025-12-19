@@ -75,5 +75,18 @@ namespace ResumeProfile.API.Controllers
 
             return Ok(new { Message = "مهارت با موفقیت حذف شد." });
         }
+        /// <summary>
+        /// نمایش مهارت
+        /// </summary>
+        [HttpPost("{id:long}")]
+        public async Task<IActionResult> Showon(long id, bool show)
+        {
+            var result = await _mediator.Send(new ShowOnCommandCommand { Id = id, show = show });
+
+            if (!result)
+                return BadRequest(new { Message = "نمایش مهارت انجام نشد." });
+
+            return Ok(new { Message = "مهارت با موفقیت نمایش داده شد." });
+        }
     }
 }

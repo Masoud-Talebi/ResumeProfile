@@ -4,7 +4,7 @@ namespace ResumeProfile.Infrastructure.Persistence
     {
         public LogDbContext CreateDbContext(string[] args)
         {
-            var connStr = "Data Source=tai.liara.cloud,31170;Initial Catalog=myDB;User Id=sa;Password=qOm7aAfcJerUTXo3F8py18Ph;Encrypt=False;";
+            var connStr = "Server=192.168.1.50;Database=ResumeProfile.Log;User Id=sa;password=Masoud@2023;Encrypt=False;TrustServerCertificate=True;MultipleActiveResultSets=True;";
 
             var optionsBuilder = new DbContextOptionsBuilder<LogDbContext>();
             optionsBuilder.UseSqlServer(connStr);

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
 {
     /// <inheritdoc />
@@ -39,7 +41,8 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ShowOnSite = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,6 +114,36 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "Certificates",
+                schema: "ResumeProfile",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    certificate_org = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    certificate_year = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SVG = table.Column<int>(type: "int", nullable: false),
+                    CreatedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    DeletedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ShowOnSite = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Certificates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmailHistories",
                 schema: "ResumeProfile",
                 columns: table => new
@@ -175,7 +208,8 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ShowOnSite = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,7 +235,8 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                     ModifiedByIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedByUserId = table.Column<long>(type: "bigint", nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ShowOnSite = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -368,8 +403,42 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
             migrationBuilder.InsertData(
                 schema: "ResumeProfile",
                 table: "ApplicationSettings",
-                columns: new[] { "Id", "AboutMe", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Email", "FirstName", "IsActive", "LastName", "License", "LicenseValid", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "Profession", "Profile" },
-                values: new object[] { 1L, "lorem", null, null, null, null, null, "info@example.com", "Resume", false, "Profile", "...", false, null, null, null, "Asp.net core Programmer", null });
+                columns: new[] { "Id", "AboutMe", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Email", "FirstName", "IsActive", "LastName", "License", "LicenseValid", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "Profession", "Profile", "ShowOnSite" },
+                values: new object[] { 1L, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.", null, null, null, null, null, "info@example.com", "Resume", false, "Profile", "...", false, null, null, null, "Asp.net core Programmer", null, false });
+
+            migrationBuilder.InsertData(
+                schema: "ResumeProfile",
+                table: "Certificates",
+                columns: new[] { "Id", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Description", "IsActive", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "SVG", "ShowOnSite", "Title", "certificate_org", "certificate_year" },
+                values: new object[,]
+                {
+                    { 1L, null, null, null, null, null, "Professional certification by Microsoft.", false, null, null, null, 4, true, "Advanced C# Programming", "Microsoft", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6267) },
+                    { 2L, null, null, null, null, null, "Certified training in managing Windows Server & Active Directory.", false, null, null, null, 7, true, "Windows Server 2019", "Microsoft", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6288) },
+                    { 3L, null, null, null, null, null, "Core Linux server management and command-line essentials.", false, null, null, null, 6, true, "Linux Administration Basics", "Linux Foundation", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6290) },
+                    { 4L, null, null, null, null, null, "Mastery in creating and managing Docker containers.", false, null, null, null, 5, true, "Docker Containerization Expert", "Docker Inc", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6292) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "ResumeProfile",
+                table: "Projects",
+                columns: new[] { "Id", "Body", "CompletionDate", "CreatedByIP", "CreatedByUserId", "Decription", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Image", "IsActive", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "ProjectState", "ShowOnSite", "Tags", "Title" },
+                values: new object[,]
+                {
+                    { 1L, null, new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6098), null, null, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.", null, null, null, null, false, null, null, null, 1, true, null, "Asp.net Project" },
+                    { 2L, null, new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6110), null, null, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.", null, null, null, null, false, null, null, null, 1, true, null, "Windows Form Project" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "ResumeProfile",
+                table: "Skills",
+                columns: new[] { "Id", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "IsActive", "Level", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "Name", "ShowOnSite" },
+                values: new object[,]
+                {
+                    { 1L, null, null, null, null, null, false, 80, null, null, null, "C#", true },
+                    { 2L, null, null, null, null, null, false, 50, null, null, null, "React", true },
+                    { 3L, null, null, null, null, null, false, 70, null, null, null, "Js", true },
+                    { 4L, null, null, null, null, null, false, 90, null, null, null, "Asp.net Core", true }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppRoleClaims_RoleId",
@@ -442,6 +511,10 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
 
             migrationBuilder.DropTable(
                 name: "AppUserTokens",
+                schema: "ResumeProfile");
+
+            migrationBuilder.DropTable(
+                name: "Certificates",
                 schema: "ResumeProfile");
 
             migrationBuilder.DropTable(

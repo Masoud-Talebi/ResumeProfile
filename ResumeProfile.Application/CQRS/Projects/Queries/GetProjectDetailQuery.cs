@@ -1,9 +1,4 @@
-﻿using MediatR;
-using System.ComponentModel.DataAnnotations;
-using ResumeProfile.Application.Dtos.ProjectDtos;
-using ResumeProfile.Application.Service;
-
-namespace ResumeProfile.Application.CQRS.Projects.Queries
+﻿namespace ResumeProfile.Application.CQRS.Projects.Queries
 {
     [Display(Name = "دریافت جزئیات پروژه")]
     public class GetProjectDetailQuery : IRequest<ProjectDetailDto>

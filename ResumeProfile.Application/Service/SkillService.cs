@@ -1,6 +1,3 @@
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using ResumeProfile.Application.Dtos.SkillDtos;
 using ResumeProfile.Domain.Entities;
 
 namespace ResumeProfile.Application.Service
@@ -51,6 +48,16 @@ namespace ResumeProfile.Application.Service
         {
             var skill = await base.GetByIdAsync(skillId);
             return _mapper.Map<SkillDto>(skill);
+        }
+
+        public async Task<bool> ShowOn(long id, bool show)
+        {
+            var skill = await base.GetByIdAsync(id);
+            if (skill == null)
+                return false;
+            skill.ShowOnSite = show;
+            await base.SaveChangesAsync();
+            return true;
         }
     }
 }

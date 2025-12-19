@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResumeProfile.Application.Dtos.AccountDtos
+﻿namespace ResumeProfile.Application.Dtos.AccountDtos
 {
     // DTO پاسخ
     public class UpdateAccountResponseDto

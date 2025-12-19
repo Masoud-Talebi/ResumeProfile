@@ -1,4 +1,3 @@
-using ResumeProfile.FrameWork.Common;
 namespace ResumeProfile.Application.Common.Mapping
 {
     public class ProjectProfile : Profile
