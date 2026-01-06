@@ -103,7 +103,7 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                             ShowOnSite = true,
                             Title = "Advanced C# Programming",
                             certificate_org = "Microsoft",
-                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6267)
+                            certificate_year = new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7503)
                         },
                         new
                         {
@@ -114,7 +114,7 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                             ShowOnSite = true,
                             Title = "Windows Server 2019",
                             certificate_org = "Microsoft",
-                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6288)
+                            certificate_year = new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7520)
                         },
                         new
                         {
@@ -125,7 +125,7 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                             ShowOnSite = true,
                             Title = "Linux Administration Basics",
                             certificate_org = "Linux Foundation",
-                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6290)
+                            certificate_year = new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7521)
                         },
                         new
                         {
@@ -136,7 +136,7 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                             ShowOnSite = true,
                             Title = "Docker Containerization Expert",
                             certificate_org = "Docker Inc",
-                            certificate_year = new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6292)
+                            certificate_year = new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7556)
                         });
                 });
 
@@ -786,7 +786,7 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                         new
                         {
                             Id = 1L,
-                            CompletionDate = new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6098),
+                            CompletionDate = new DateTime(2025, 12, 29, 15, 16, 58, 101, DateTimeKind.Local).AddTicks(6073),
                             Decription = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.",
                             IsActive = false,
                             ProjectState = 1,
@@ -796,7 +796,7 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                         new
                         {
                             Id = 2L,
-                            CompletionDate = new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6110),
+                            CompletionDate = new DateTime(2025, 12, 29, 15, 16, 58, 101, DateTimeKind.Local).AddTicks(6088),
                             Decription = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.",
                             IsActive = false,
                             ProjectState = 1,

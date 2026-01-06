@@ -21,7 +21,7 @@ namespace ResumeProfile.Infrastructure.Common
             services.AddDbContext<LogDbContext>(options =>
             {
                 // می‌تونی مستقیم همون Decrypt رو بزنی
-                var conStr = configuration.GetConnectionString("LogDbConnection");
+                var conStr = AESService.Decrypt(configuration.GetConnectionString("LogDbConnection"));
                 options.UseSqlServer(conStr);
             });
             services.AddScoped<ILogDbContext, LogDbContext>();

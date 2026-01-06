@@ -412,10 +412,10 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 columns: new[] { "Id", "CreatedByIP", "CreatedByUserId", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Description", "IsActive", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "SVG", "ShowOnSite", "Title", "certificate_org", "certificate_year" },
                 values: new object[,]
                 {
-                    { 1L, null, null, null, null, null, "Professional certification by Microsoft.", false, null, null, null, 4, true, "Advanced C# Programming", "Microsoft", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6267) },
-                    { 2L, null, null, null, null, null, "Certified training in managing Windows Server & Active Directory.", false, null, null, null, 7, true, "Windows Server 2019", "Microsoft", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6288) },
-                    { 3L, null, null, null, null, null, "Core Linux server management and command-line essentials.", false, null, null, null, 6, true, "Linux Administration Basics", "Linux Foundation", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6290) },
-                    { 4L, null, null, null, null, null, "Mastery in creating and managing Docker containers.", false, null, null, null, 5, true, "Docker Containerization Expert", "Docker Inc", new DateTime(2025, 12, 3, 14, 28, 16, 789, DateTimeKind.Local).AddTicks(6292) }
+                    { 1L, null, null, null, null, null, "Professional certification by Microsoft.", false, null, null, null, 4, true, "Advanced C# Programming", "Microsoft", new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7503) },
+                    { 2L, null, null, null, null, null, "Certified training in managing Windows Server & Active Directory.", false, null, null, null, 7, true, "Windows Server 2019", "Microsoft", new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7520) },
+                    { 3L, null, null, null, null, null, "Core Linux server management and command-line essentials.", false, null, null, null, 6, true, "Linux Administration Basics", "Linux Foundation", new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7521) },
+                    { 4L, null, null, null, null, null, "Mastery in creating and managing Docker containers.", false, null, null, null, 5, true, "Docker Containerization Expert", "Docker Inc", new DateTime(2025, 12, 29, 15, 16, 58, 97, DateTimeKind.Local).AddTicks(7556) }
                 });
 
             migrationBuilder.InsertData(
@@ -424,8 +424,8 @@ namespace ResumeProfile.Infrastructure.Migrations.SqlServerApplicationDb
                 columns: new[] { "Id", "Body", "CompletionDate", "CreatedByIP", "CreatedByUserId", "Decription", "DeletedByIP", "DeletedByUserId", "DeletedDateTime", "Image", "IsActive", "ModifiedByIP", "ModifiedByUserId", "ModifiedDateTime", "ProjectState", "ShowOnSite", "Tags", "Title" },
                 values: new object[,]
                 {
-                    { 1L, null, new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6098), null, null, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.", null, null, null, null, false, null, null, null, 1, true, null, "Asp.net Project" },
-                    { 2L, null, new DateTime(2025, 12, 3, 14, 28, 16, 793, DateTimeKind.Local).AddTicks(6110), null, null, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.", null, null, null, null, false, null, null, null, 1, true, null, "Windows Form Project" }
+                    { 1L, null, new DateTime(2025, 12, 29, 15, 16, 58, 101, DateTimeKind.Local).AddTicks(6073), null, null, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.", null, null, null, null, false, null, null, null, 1, true, null, "Asp.net Project" },
+                    { 2L, null, new DateTime(2025, 12, 29, 15, 16, 58, 101, DateTimeKind.Local).AddTicks(6088), null, null, "Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.", null, null, null, null, false, null, null, null, 1, true, null, "Windows Form Project" }
                 });
 
             migrationBuilder.InsertData(
