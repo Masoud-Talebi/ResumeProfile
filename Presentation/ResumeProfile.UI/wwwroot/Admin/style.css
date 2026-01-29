@@ -1,0 +1,462 @@
+/* متغیرهای رنگی برای تم طوسی-سفید */
+:root {
+    --primary-color: #3f51b5; /* کمی رنگ برای جذابیت (اختیاری) */
+    --text-color: #333;
+    --background-light: #f4f4f9;
+    --background-dark: #e0e0e0;
+    --sidebar-bg: #fff;
+    --card-bg: #fff;
+    --border-color: #ddd;
+    --gray-light: #f7f7f7;
+    --gray-medium: #8d8d8d;
+    --accent-blue: #2196f3;
+    --accent-red: #f44336;
+    --soft-card-1: #e3f2fd; /* آبی ملایم */
+    --soft-card-2: #fff3e0; /* نارنجی ملایم */
+    --soft-card-3: #e8f5e9; /* سبز ملایم */
+}
+
+/* فونت و ریست عمومی */
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('Vazirmatn-Regular.woff2') format('woff2'); /* فرض بر وجود فونت وزیری‌متن */
+}
+.profile-photoA{
+    width : 20%;
+    margin : 1%;
+    border-radius : 5px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-color);
+    line-height: 1.6;
+    direction: rtl;
+}
+
+/* Header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--sidebar-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.panel-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.logout-btn {
+    background-color: var(--accent-red);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* Layout */
+.admin-container {
+    display: flex;
+    min-height: calc(100vh - 66px); /* 66px فرض ارتفاع هدر */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    padding: 1.5rem 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+    padding: 0.75rem 1.5rem;
+    color: var(--gray-medium);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: var(--background-dark);
+    color: var(--text-color);
+}
+
+.nav-item.active {
+    border-right: 4px solid var(--primary-color);
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+.content-section {
+    display: none;
+    animation: fade-in 0.5s ease-out;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* Fade-in Animation */
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2, h3 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+/* Stats Cards */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-right: 5px solid;
+    animation: fade-in 0.7s ease-out; /* انیمیشن نرم */
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:nth-child(1) { border-color: #2196f3; background-color: var(--soft-card-1); }
+.stat-card:nth-child(2) { border-color: #ff9800; background-color: var(--soft-card-2); }
+.stat-card:nth-child(3) { border-color: #4caf50; background-color: var(--soft-card-3); }
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--gray-medium);
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.card-title {
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+}
+
+/* Projects Table */
+.project-management {
+    margin-bottom: 2rem;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.projects-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* حداقل عرض برای نمایش بهتر */
+}
+
+.projects-table th, .projects-table td {
+    padding: 12px 15px;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.projects-table th {
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.projects-table tbody tr:hover {
+    background-color: var(--gray-light);
+    transition: background-color 0.3s ease;
+}
+
+.project-thumb {
+    width: 50px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: white;
+}
+
+.status-badge.complete { background-color: #4caf50; }
+.status-badge.pending { background-color: #ff9800; }
+.status-badge.published { background-color: #2196f3; }
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.edit-btn { color: var(--accent-blue); }
+.delete-btn { color: var(--accent-red); }
+
+/* Add Project Form */
+.add-project-form-container {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.add-project-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group:nth-child(3), .form-group:nth-child(4) { /* لینک تصویر و دکمه سابمیت در موبایل تک ستونی شوند */
+    grid-column: span 2;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--gray-medium);
+}
+
+.form-control {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+}
+
+form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+    font-family: inherit;
+    font-size: 1rem;
+    align-self: flex-start;
+    justify-self: start;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #303f9f;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 0;
+        box-shadow: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        justify-content: space-around;
+        overflow-x: auto;
+    }
+
+    .nav-item {
+        padding: 0.75rem 1rem;
+        flex-shrink: 0;
+        border-right: none !important;
+        border-bottom: 3px solid transparent;
+    }
+
+    .nav-item.active {
+        border-bottom-color: var(--primary-color) !important;
+        background-color: var(--background-dark);
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .add-project-form {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group:nth-child(3), .form-group:nth-child(4) {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .panel-name {
+        font-size: 1.2rem;
+    }
+
+    .logout-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .stat-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .card-icon {
+        font-size: 2rem;
+    }
+
+    .card-value {
+        font-size: 1.8rem;
+    }
+
+    .projects-table th, .projects-table td {
+        padding: 8px 10px;
+    }
+    
+    .projects-table {
+        min-width: 500px; /* برای اطمینان از خوانایی جدول */
+    }
+}
+
+
+
+
+
+
+
+/* همون استایل جدول پروژه‌ها برای جدول مدارک */
+#certificates-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+    #certificates-table th, #certificates-table td {
+        padding: 0.8rem;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    #certificates-table th {
+        background-color: #f9f9f9;
+        font-weight: 600;
+    }
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4a5cff;
+    margin: 0 4px;
+}
+
+    .action-btn:hover {
+        color: #1a3cff;
+    }

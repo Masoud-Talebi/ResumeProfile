@@ -1,0 +1,53 @@
+﻿@using ResumeProfile.UI.Models.CertificateDtos
+@inject CertificateService CertificateService
+<section id="certificates" class="container section-padding slide-up" data-delay="0.4">
+    <h2>مدارک و گواهینامه‌ها</h2>
+
+    <div class="certificates-grid">
+        @if (CertificateDtos == null)
+        {
+            <div style="text-align: initial" class="loading">در حال بارگذاری گواهی‌ها...</div>
+        }
+        else if (CertificateDtos.Count == 0)
+        {
+            <div style="text-align: initial" class="empty-state">هیچ گواهی یافت نشد.</div>
+        }
+        else
+        {
+            @foreach (var Certificate in CertificateDtos)
+            {
+                <article class="certificate-card">
+                    <div class="cert-icon">
+                        <i style="color:blue;font-size:30px" class="@(Certificate.SVG switch {
+                        SVGType.award => "fas fa-award",
+                        SVGType.amazon => "fab fa-amazon",
+                        SVGType.microsoft => "fab fa-microsoft",
+                        SVGType.windows => "fab fa-windows",
+                        SVGType.shield_alt => "fas fa-shield-alt",
+                        SVGType.docker => "fab fa-docker",
+                        SVGType.linkedin => "fab fa-linkedin",
+                        SVGType.stack_overflow => "fab fa-stack-overflow",
+                        SVGType.mobile_alt => "fas fa-mobile-alt",
+                        SVGType.linux => "fab fa-linux"
+                    })"></i>
+                    </div>
+                    <div style="width:200px;" class="cert-content">
+                        <h3>@Certificate.Title</h3>
+                        <p style="word-wrap: break-word;">@Certificate.Description</p>
+                        <span class="certificate-org">@Certificate.certificate_org — @Certificate.certificate_year.Year.ToString()</span>
+                    </div>
+                </article>
+            }
+        }
+
+    </div>
+</section>
+@code {
+    private List<CertificateDto>? CertificateDtos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CertificateDtos = await CertificateService.GetAllAsync();
+        CertificateDtos = CertificateDtos.Where(p => p.ShowOnSite).ToList();
+    }
+}

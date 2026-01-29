@@ -1,0 +1,52 @@
+﻿@page "/skills"
+@using ResumeProfile.UI.Models.SkillDtos
+@inject SkillService SkillService
+
+<section id="skills" class="container section-padding slide-up" data-delay="0.4">
+    <h2>مهارت‌های فنی</h2>
+
+    @if (isLoading)
+    {
+        <p>در حال بارگذاری مهارت‌ها...</p>
+    }
+    else if (skills == null || !skills.Any())
+    {
+        <p>هیچ مهارتی یافت نشد.</p>
+    }
+    else
+    {
+        <div class="skills-grid">
+            @foreach (var skill in skills)
+            {
+                <div class="skill-item">
+                    <p>@skill.Name</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" role="progressbar"
+                             style="width:@skill.Level%"
+                             aria-valuenow="@skill.Level" aria-valuemin="0" aria-valuemax="100">
+                            <span>@skill.Level%</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private List<SkillDto> skills = new();
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSkillsAsync();
+    }
+
+    private async Task LoadSkillsAsync()
+    {
+        isLoading = true;
+        skills = await SkillService.GetAllAsync();
+        skills = skills.Where(p => p.ShowOnSite).ToList();
+        isLoading = false;
+    }
+}

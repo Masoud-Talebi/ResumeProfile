@@ -1,0 +1,47 @@
+﻿@inject IJSRuntime JS
+
+<div id="@ElementId" style="min-height: 300px;"></div>
+
+@code {
+    [Parameter] public string Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    private string ElementId = $"ck_{Guid.NewGuid().ToString().Replace("-", "")}";
+    private DotNetObjectReference<EditorComponent>? _objRef;
+    private bool _editorReady = false;
+    private string? _lastValue;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _objRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("CKEditorFunctions.create", ElementId, _objRef);
+
+            // مهم: منتظر آماده شدن ادیتور بمان
+            await JS.InvokeVoidAsync("CKEditorFunctions.waitForReady", ElementId);
+
+            _editorReady = true;
+            _lastValue = Value;
+
+            if (!string.IsNullOrEmpty(Value))
+                await JS.InvokeVoidAsync("CKEditorFunctions.setData", ElementId, Value);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_editorReady && _lastValue != Value)
+        {
+            _lastValue = Value;
+            await JS.InvokeVoidAsync("CKEditorFunctions.setData", ElementId, Value ?? "");
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnCkeditorChange(string data)
+    {
+        _lastValue = data;
+        await ValueChanged.InvokeAsync(data);
+    }
+}

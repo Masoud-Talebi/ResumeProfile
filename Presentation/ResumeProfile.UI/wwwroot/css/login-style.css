@@ -1,0 +1,184 @@
+/* متغیرهای رنگی برای تم طوسی-سفید */
+:root {
+    --primary-color: #3f51b5; /* رنگ اصلی برای دکمه و فوکوس */
+    --text-color: #333;
+    --background-color: #f4f4f9; /* طوسی بسیار روشن */
+    --box-bg: #fff;
+    --border-color: #ddd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --gray-medium: #8d8d8d;
+}
+
+/* فونت و ریست عمومی */
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('Vazirmatn-Regular.woff2') format('woff2'); /* فرض بر وجود فونت وزیری‌متن */
+    font-weight: 400;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    direction: rtl;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Login Container & Box */
+.login-container {
+    width: 100%;
+    max-width: 400px; /* حداکثر عرض فرم */
+}
+
+.login-box {
+    background-color: var(--box-bg);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px var(--shadow-color); /* سایه نرم */
+    text-align: center;
+    border: 1px solid var(--border-color);
+    opacity: 0; /* برای انیمیشن fade-in */
+    animation: fade-in 0.7s forwards ease-out;
+}
+
+/* Fade-in Animation */
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.login-header {
+    margin-bottom: 30px;
+}
+
+.login-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.login-header p {
+    color: var(--gray-medium);
+    font-size: 0.9rem;
+}
+
+/* Form Styling */
+.form-group {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--gray-medium);
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    padding-right: 40px; /* فضای کافی برای آیکون */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--background-color); /* کمی پس‌زمینه طوسی برای input */
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2); /* افکت focus نرم */
+    background-color: var(--box-bg); /* سفید شدن پس زمینه هنگام فوکوس */
+}
+
+/* Icon inside input */
+.form-group {
+    position: relative;
+}
+
+.form-group .icon {
+    position: absolute;
+    top: 40px; 
+    right: 15px;
+    color: var(--gray-medium);
+    font-size: 0.9rem;
+}
+
+
+/* Button Styling */
+.login-btn {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: inherit;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: #303f9f;
+    transform: translateY(-2px); /* افکت hover نرم */
+    box-shadow: 0 4px 10px rgba(63, 81, 181, 0.3);
+}
+
+/* Footer */
+.login-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: #303f9f;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+        margin: 0 10px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-group input {
+        padding: 10px 15px;
+    }
+}

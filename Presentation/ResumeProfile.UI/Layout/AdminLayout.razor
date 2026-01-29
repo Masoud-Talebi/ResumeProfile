@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using ResumeProfile.UI.Services
+@inject AuthService AuthService
+@inject NavigationManager Nav
+@inherits LayoutComponentBase
+@attribute [Authorize]
+
+<header class="admin-header">
+    <div class="panel-name">پنل ادمین پروژه‌ها</div>
+    <button id="logout-btn" class="logout-btn" @onclick="Logout">
+        <i class="fas fa-sign-out-alt"></i> خروج
+    </button>
+</header>
+
+<div class="admin-container">
+    <aside class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active"><i class="fas fa-chart-line"></i> داشبورد</a>
+            <a href="#projects" class="nav-item"><i class="fas fa-folder-open"></i> پروژه‌ها</a>
+            <a href="#skill" class="nav-item"><i class="fas fa-folder-open"></i> ‌تخصص</a>
+            <a href="#certificates-admin" class="nav-item"><i class="fas fa-users"></i> مدارک و گواهی</a>
+            <a href="#security" class="nav-item"><i class="fas fa-users"></i> امنیت</a>
+            <a href="#settings" class="nav-item"><i class="fas fa-cog"></i> تنظیمات</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        @Body
+    </main>
+</div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.Logout();
+        Nav.NavigateTo("/login", forceLoad: true);
+    }
+}

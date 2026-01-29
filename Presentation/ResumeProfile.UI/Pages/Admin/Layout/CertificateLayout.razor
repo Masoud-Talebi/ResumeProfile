@@ -1,0 +1,254 @@
+﻿@using ResumeProfile.UI.Models.CertificateDtos
+@inject CertificateService CertificateService
+@inject IJSRuntime JS
+<section id="certificates-admin" class="content-section">
+    <h2>مدارک و گواهینامه‌ها</h2>
+
+    <!-- جدول مدارک -->
+    <div class="table-container">
+        <table id="certificates-table" class="projects-table">
+            <thead>
+                <tr>
+                    <th>عنوان مدرک</th>
+                    <th>توضیحات</th>
+                    <th>سازمان صادرکننده</th>
+                    <th>سال</th>
+                    <th>نمایش در صفحه اصلی</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (isLoading)
+                {
+                    <p>در حال بارگذاری...</p>
+                }
+                else if (certificates == null || certificates.Count == 0)
+                {
+                    <p>هیچ گواهی یافت نشد.</p>
+                }
+                else
+                {
+                    @foreach (var item in certificates)
+                    {
+                        <tr data-id="1">
+                            <td>@item.Title</td>
+                            <td>
+                                <i class="@(item.SVG switch {
+                                            SVGType.award => "fas fa-award",
+                                            SVGType.amazon => "fab fa-amazon",
+                                            SVGType.microsoft => "fab fa-microsoft",
+                                            SVGType.windows => "fab fa-windows",
+                                            SVGType.shield_alt => "fas fa-shield-alt",
+                                            SVGType.docker => "fab fa-docker",
+                                            SVGType.linkedin => "fab fa-linkedin",
+                                            SVGType.stack_overflow => "fab fa-stack-overflow",
+                                            SVGType.mobile_alt => "fas fa-mobile-alt",
+                                            SVGType.linux => "fab fa-linux",
+                                        })" >
+                                        
+                                    </i>
+                            </td>
+                            <td>@item.certificate_org</td>
+                            <td>@item.certificate_year.Year.ToString()</td>
+                            <td class="text-center">
+                                <label class="toggle-switch">
+                                    <input type="checkbox"
+                                           checked="@item.ShowOnSite"
+                                           @onchange="@(e => ToggleShow(item, e))" />
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <button class="action-btn edit-btn" @onclick="() => EditCertificate(item.Id)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" @onclick="() => DeleteCertificate(item.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- فرم اضافه کردن مدرک جدید -->
+    <div class="add-project-form-container">
+        <h3>اضافه کردن مدرک جدید</h3>
+        <EditForm Model="@certificateModel" class="add-project-form" id="add-project-form" OnValidSubmit="SubmitCertificateAsync">
+            <div class="form-group">
+                <label for="certificate-title">عنوان مدرک:</label>
+                <InputText @bind-Value="certificateModel.Title" id="certificate-title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="certificate-description">توضیحات:</label>
+                <InputTextArea @bind-Value="certificateModel.Description" id="certificate-description" class="form-control" rows="2" />
+            </div>
+            <div class="form-group">
+                <label for="certificate-org">سازمان صادرکننده:</label>
+                <InputText @bind-Value="certificateModel.certificate_org" id="certificate-org" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="certificate-year">سال:</label>
+                <InputDate @bind-Value="certificateModel.certificate_year" id="certificate-year" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="certificate-year">SVG:</label>
+                <InputSelect class="form-control" @bind-Value="certificateModel.SVG"> @foreach (var svg in Enum.GetValues<SVGType>()) { <option value="@svg">@svg</option> } </InputSelect>
+                <div  class="mt-1">
+                    <span style="font-size:30px">Preview: </span>
+                    <i style="color:blue;font-size:30px" class="@(certificateModel.SVG switch {
+                        SVGType.award => "fas fa-award",
+                        SVGType.amazon => "fab fa-amazon",
+                        SVGType.microsoft => "fab fa-microsoft",
+                        SVGType.windows => "fab fa-windows",
+                        SVGType.shield_alt => "fas fa-shield-alt",
+                        SVGType.docker => "fab fa-docker",
+                        SVGType.linkedin => "fab fa-linkedin",
+                        SVGType.stack_overflow => "fab fa-stack-overflow",
+                        SVGType.mobile_alt => "fas fa-mobile-alt",
+                        SVGType.linux => "fab fa-linux"
+                    })"></i>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn" disabled="@isSubmitting">
+                @if (isSubmitting)
+                {
+                    <span><i class="fas fa-spinner fa-spin"></i> در حال @(isEditing ? "بروزرسانی" : "افزودن") مدرک...</span>
+                }
+                else
+                {
+                    <span><i class="fas @(isEditing ? "fa-sync-alt" : "fa-plus")"></i> @(isEditing ? "بروزرسانی مدرک" : "افزودن مدرک")</span>
+                }
+            </button>
+            @if (isEditing)
+                {
+                    <button type="button" class="submit-btn" @onclick="CancelEdit">❌ لغو</button>
+                }
+        </EditForm>
+    </div>
+</section>
+@code
+{
+    private List<CertificateDto> certificates = new();
+    private bool isLoading = true;
+    private bool isEditing = false;
+    private bool isSubmitting = false;
+    private CertificateDto certificateModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadcertificateAsync();
+    }
+
+    private async Task LoadcertificateAsync()
+    {
+        isLoading = true;
+        certificates = await CertificateService.GetAllAsync();
+        isLoading = false;
+    }
+    private async Task SubmitCertificateAsync()
+    {
+        isSubmitting = true;
+        bool result = false;
+        if (isEditing)
+        {
+            var updateDto = new UpdateCertificateDto()
+                {
+                    certificate_org = certificateModel.certificate_org,
+                    certificate_year = certificateModel.certificate_year,
+                    Description = certificateModel.Description,
+                    Title = certificateModel.Title,
+                    SVG = certificateModel.SVG,
+                    Id = certificateModel.Id
+                };
+            var ok = await CertificateService.UpdateAsync(updateDto);
+            if (ok)
+            {
+                result = ok;
+                await JS.InvokeVoidAsync("alert", "ویرایش با موفقیت انجام شد!");
+            }
+
+            
+            
+        }
+        else
+        {
+            var createDto = new CreateCertificateDto()
+            {
+                certificate_org = certificateModel.certificate_org,
+                certificate_year = certificateModel.certificate_year,
+                Description = certificateModel.Description,
+                Title = certificateModel.Title,
+                SVG = certificateModel.SVG,
+            };
+            var ok = await CertificateService.CreateAsync(createDto);
+            if (ok)
+            {
+                result = true;
+                await JS.InvokeVoidAsync("alert", "گواهی جدید با موفقیت اضافه شد!");
+            }
+
+        }
+        if (result)
+        {
+            await LoadcertificateAsync();
+            certificateModel = new();
+            isEditing = false;
+        }
+        isSubmitting = false;
+    }
+    private async Task DeleteCertificate(long id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "آیا مطمئن هستید می‌خواهید این گواهی حذف شود؟");
+        if (!confirmed) return;
+
+        var ok = await CertificateService.DeleteAsync(id);
+        if (ok)
+            await LoadcertificateAsync();
+    }
+    private async void EditCertificate(long id)
+    {
+        var detail = await CertificateService.GetByIdAsync(id);
+        if (detail == null)
+            return;
+
+        certificateModel = new CertificateDto
+        {
+            Id = detail.Id,
+            Title = detail.Title ?? "",
+            certificate_org = detail.certificate_org ?? "",
+            certificate_year = detail.certificate_year,
+            Description = detail.Description,
+            SVG = detail.SVG
+        };
+
+        isEditing = true;
+
+        StateHasChanged(); // برای آپدیت رابط کاربری
+    }
+    private void CancelEdit()
+    {
+        certificateModel = new();
+        isEditing = false;
+    }
+    private async Task ToggleShow(CertificateDto item, ChangeEventArgs e)
+    {
+        bool oldValue = item.ShowOnSite;
+
+        // تبدیل مقدار ورودی به bool
+        var val = e.Value?.ToString()?.ToLower();
+        bool newValue = val == "true" || val == "on";
+
+        item.ShowOnSite = newValue;
+
+        var result = await CertificateService.ShowOn(item.Id, newValue);
+
+        if (!result)
+        {
+            // اگر API خطا داد، مقدار قبلی را برگردان
+            item.ShowOnSite = oldValue;
+        }
+    }
+}

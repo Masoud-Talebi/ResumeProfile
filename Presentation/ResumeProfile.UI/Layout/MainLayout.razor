@@ -1,0 +1,32 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+@using ResumeProfile.UI.Models.ApplicationSettingDtos
+@inject AppSettingService AppSettingService
+
+
+<NavMenu Settings="Settings"></NavMenu>
+
+<main>
+    <PageTitle>Home</PageTitle>
+    @Body
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 مسعود طالبی. تمامی حقوق محفوظ است.</p>
+    </div>
+</footer>
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // هر بار که Layout رندر شد، init اجرا شود
+        await JS.InvokeVoidAsync("siteScripts.init");
+    }
+    private ApplicationSettingDto? Settings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Settings = await AppSettingService.GetAsync();
+    }
+}
+

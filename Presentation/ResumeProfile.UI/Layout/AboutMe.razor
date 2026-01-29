@@ -1,0 +1,25 @@
+﻿@using ResumeProfile.UI.Models.ApplicationSettingDtos
+
+<section id="about" class="container section-padding slide-up" data-delay="0.4">
+    <h2>درباره من</h2>
+    @if (Settings == null)
+    {
+        <div class="loading">در حال بارگذاری پروژه‌ها...</div>
+    }
+    else
+    {
+        <div class="about-content">
+            <div class="profile-photo-container">
+                <img src="@Settings.ProfileImageBase64" alt="عکس پروفایل @Settings.FullName" class="profile-photo">
+            </div>
+            <div class="bio">
+                <p>@Settings.AboutMe</p>
+            </div>
+        </div>
+    }
+    
+</section>
+@code {
+    [Parameter]
+    public ApplicationSettingDto Settings { get; set; } = default!;
+}

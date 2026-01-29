@@ -1,0 +1,75 @@
+﻿@page "/login"
+@layout LoginLayout
+
+@inject AuthService AuthService
+@inject NavigationManager Nav
+
+<div class="login-box fade-in">
+    <div class="login-header">
+        <i class="fas fa-lock login-icon"></i>
+        <h1>ورود به پنل ادمین</h1>
+        <p>لطفاً اطلاعات خود را وارد کنید</p>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="alert alert-danger">@ErrorMessage</div>
+    }
+
+    <EditForm Model="@model" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="username">
+                <i class="fas fa-user icon"></i> نام کاربری یا ایمیل
+            </label>
+            <InputText id="username" class="form-control" @bind-Value="model.UserName" placeholder="مثال: admin@example.com" />
+            <ValidationMessage For="@(() => model.UserName)" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                <i class="fas fa-key icon"></i> رمز عبور
+            </label>
+            <InputText id="password" type="password" class="form-control" @bind-Value="model.Password" placeholder="رمز عبور" />
+            <ValidationMessage For="@(() => model.Password)" />
+        </div>
+
+        <button type="submit" class="login-btn">
+            <i class="fas fa-sign-in-alt"></i> ورود
+        </button>
+    </EditForm>
+
+    <div class="login-footer">
+        <a href="#" class="forgot-password">فراموشی رمز عبور؟</a>
+    </div>
+</div>
+
+@code {
+    private LoginAccountDto model = new();
+    private string ErrorMessage = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            ErrorMessage = string.Empty;
+
+            var result = await AuthService.Login(model);
+
+            if (result)
+            {
+                Nav.NavigateTo("/admin", forceLoad: true);
+            }
+            else
+            {
+                ErrorMessage = "نام کاربری یا رمز عبور اشتباه است.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"خطایی در ورود رخ داد: {ex.Message}";
+        }
+    }
+}

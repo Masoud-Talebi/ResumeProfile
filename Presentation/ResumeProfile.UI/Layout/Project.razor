@@ -1,0 +1,45 @@
+﻿@using ResumeProfile.UI.Models.ProjectDtos
+@using ResumeProfile.UI.Services
+@inject ProjectService ProjectService
+
+<section id="projects" class="container section-padding slide-up" data-delay="0.4">
+    <h2>پروژه‌های کلیدی</h2>
+    <div class="projects-grid">
+        @if (projects == null)
+        {
+            <div class="loading">در حال بارگذاری پروژه‌ها...</div>
+        }
+        else if (projects.Count == 0)
+        {
+            <div class="empty-state">هیچ پروژه‌ای یافت نشد.</div>
+        }
+        else
+        {
+            @foreach (var project in projects)
+            {
+                <article class="project-card">
+                    <img src="@(string.IsNullOrWhiteSpace(project.ImageBase64) || project.ImageBase64 == "data:image/jpg;base64,"
+                                                                         ? "Image-not-found.png"
+                                                                                                  : project.ImageBase64)" alt="تصویر پروژه @project.Title" class="project-image">
+                    <div class="card-content">
+                        <h3>@project.Title</h3>
+                        <p>@project.Decription</p>
+                        <div class="project-tags">@foreach (var i in project.Tags) { <span>@i</span>}</div>
+                        <a href="/projectdetail/@project.Id" aria-label="مشاهده جزئیات پروژه پلتفرم فروشگاهی">مشاهده پروژه &larr;</a>
+                    </div>
+                </article>
+            }
+            
+        }
+        
+    </div>
+</section>
+@code {
+    private List<ProjectDto>? projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetAllProjectsAsync();
+        projects = projects.Where(p => p.ShowOnSite).ToList();
+    }
+}

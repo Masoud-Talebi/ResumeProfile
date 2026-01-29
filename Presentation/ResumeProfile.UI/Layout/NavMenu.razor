@@ -1,0 +1,47 @@
+﻿@using ResumeProfile.UI.Models.ApplicationSettingDtos
+<header id="header" class="fade-in">
+    <div class="container header-content">
+        @if (Settings == null)
+        {
+            <div class="loading">در حال بارگذاری...</div>
+        }
+        else
+        {
+            <h1>@Settings.FirstName  <span class="accent-text">@Settings.LastName</span></h1>
+            <p>@Settings.Profession</p>
+        }
+
+        <nav>
+            <ul>
+                @* <li>
+                    <NavLink style="font-size:18px;color:blue" href="/Admin" class="nav-link accent-text">پنل ادمین</NavLink>
+                </li> *@
+                <li>
+                    <NavLink href="#about" class="nav-link">درباره من</NavLink>
+                </li>
+                <li>
+                    <NavLink href="#skills" class="nav-link">مهارت‌ها</NavLink>
+                </li>
+                <li>
+                    <NavLink href="#projects" class="nav-link">پروژه‌ها</NavLink>
+                </li>
+                <li>
+                    <NavLink href="#contact" class="nav-link">تماس</NavLink>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+    [Parameter]
+    public ApplicationSettingDto Settings { get; set; } = default!;
+}

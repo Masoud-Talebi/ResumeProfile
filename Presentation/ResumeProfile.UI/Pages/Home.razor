@@ -1,0 +1,27 @@
+﻿@page "/"
+@using ResumeProfile.UI.Models.ApplicationSettingDtos
+@inject AppSettingService AppSettingService
+
+
+<AboutMe Settings="Settings"></AboutMe>
+
+<hr>
+
+<Skills></Skills>
+<hr />
+<Certificate></Certificate>
+<hr>
+
+<Project></Project>
+
+<hr>
+<CallMe Settings="Settings"></CallMe>
+
+@code{
+    private ApplicationSettingDto? Settings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Settings = await AppSettingService.GetAsync();
+    }
+}

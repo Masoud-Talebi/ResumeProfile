@@ -1,0 +1,400 @@
+﻿@page "/admin/projects"
+@using ResumeProfile.UI.Helpers
+@using ResumeProfile.UI.Models.ProjectDtos
+@using System.Net.Http.Headers
+@using System.Text
+@inject ProjectService ProjectService
+@inject IJSRuntime JS
+
+<section id="projects" class="content-section">
+
+    <div class="project-management">
+        <h3>مدیریت پروژه‌ها</h3>
+
+            <div class="table-container">
+                <table class="projects-table">
+                    <thead>
+                        <tr>
+                            <th>تصویر</th>
+                            <th>عنوان</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ تکمیل</th>
+                            <th>نمایش در صفحه اصلی</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (isLoading)
+                        {
+                            <p>در حال بارگذاری...</p>
+                        }
+                        else if (projects == null || projects.Count == 0)
+                        {
+                        <p>هیچ پروژه‌ای یافت نشد.</p>
+                        }
+                        else
+                        {
+                            @foreach (var item in projects)
+                            {
+                        
+                        
+                                <tr>
+                                    <td>
+
+                                        <img src="@(string.IsNullOrWhiteSpace(item.ImageBase64) || item.ImageBase64 == "data:image/jpg;base64," 
+                                                ? "Image-not-found.png" 
+                                                : item.ImageBase64)" 
+                                         width="60" height="40" class="project-thumb" />
+                                    </td>
+                                    <td>@item.Title</td>
+                                    <td>
+                                        <span class="status-badge @(item.ProjectState switch {
+                                                ProjectState.Completed => "complete",
+                                                ProjectState.Published => "published",
+                                                _ => "pending"
+                                            })">
+                                            @item.ProjectState.GetDisplayName()
+                                        </span>
+                                    </td>
+                                    <td>@item.CompletionDate?.ToString("yyyy/MM/dd")</td>
+                                    <td class="text-center">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox"
+                                                   checked="@item.ShowOnSite"
+                                                   @onchange="@(e => ToggleShow(item, e))" />
+                                            <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <button class="action-btn edit-btn" @onclick="() => EditProject(item.Id)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete-btn" @onclick="() => DeleteProject(item.Id)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        
+                        }
+                    
+                        
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
+    <div class="add-project-form-container mt-5">
+        <h3>@(isEditing ? "ویرایش پروژه" : "افزودن پروژه جدید")</h3>
+
+        <EditForm class="add-project-form" id="add-project-form" Model="@newProject" OnValidSubmit="SubmitProjectAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            
+            <div class="form-group">
+                <label>عنوان پروژه:</label>
+                <InputText class="form-control" @bind-Value="newProject.Title" required />
+            </div>
+
+            <div class="form-group">
+                <label>توضیح کوتاه:</label>
+                <InputTextArea class="form-control" @bind-Value="newProject.Decription" rows="3" required />
+            </div>
+
+            <!-- ✅ CKEditor برای Body -->
+            <div class="form-group">
+                <label>جزئیات:</label>
+                <EditorComponent @bind-Value="newProject.Body" />
+            </div>
+
+            <!-- ✅ بخش تگ‌ها -->
+            <div class="form-group">
+                <label>ویژگی‌ها (تگ‌ها):</label>
+                <div class="d-flex gap-2 mb-2">
+                    <input @bind="tagInput" @bind:event="oninput" class="form-control" placeholder="مثلاً Blazor یا ASP.NET" />
+                    <button type="button" class="btn btn-sm btn-primary submit-btn" @onclick="AddTag">➕ افزودن</button>
+                </div>
+
+                @if (newProject.Tags?.Count > 0)
+                {
+                    <div class="tags-list d-flex flex-wrap gap-2">
+                        @foreach (var tag in newProject.Tags)
+                        {
+                            <span style="margin-right:33px" class="badge bg-secondary">
+                                @tag
+                                <button style="border:none" type="button" @onclick="() => RemoveTag(tag)">❌</button>
+                            </span>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>وضعیت پروژه:</label>
+                <InputSelect class="form-control" @bind-Value="newProject.ProjectState">
+                    @foreach (var state in Enum.GetValues<ProjectState>())
+                    {
+                        <option value="@state">@state.GetDisplayName()</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="form-group">
+                <label>تاریخ تکمیل:</label>
+                <InputDate class="form-control" @bind-Value="newProject.CompletionDate" />
+            </div>
+
+            <!-- ✅ تصویر پروژه -->
+            <div class="form-group">
+                <label>تصویر پروژه:</label>
+
+                <div class="mb-2">
+                    <img src="@(string.IsNullOrWhiteSpace(currentImage) || currentImage == "data:image/jpg;base64," 
+                                                ? "Image-not-found.png" 
+                                                : currentImage)" alt="تصویر فعلی" width="150" class="rounded border" />
+                </div>
+
+                <InputFile OnChange="OnFileChange" />
+                @if (selectedFile != null)
+                {
+                    <p class="text-success mt-1">✅ تصویر جدید انتخاب شد: @selectedFile.Name</p>
+                }
+            </div>
+
+            <br />
+            <div class="add-project-form">
+                <button type="submit" class="submit-btn" disabled="@isSubmitting">
+                @if (isSubmitting)
+                {
+                    <span><i class="fas fa-spinner fa-spin"></i> در حال @(isEditing ? "بروزرسانی" : "افزودن") پروژه...</span>
+                }
+                else
+                {
+                    <span><i class="fas @(isEditing ? "fa-sync-alt" : "fa-plus")"></i> @(isEditing ? "بروزرسانی پروژه" : "افزودن پروژه")</span>
+                }
+                
+            </button>
+            @if (isEditing)
+                {
+                    <button type="button" class="submit-btn" @onclick="CancelEdit">❌ لغو</button>
+                }
+            </div>
+        </EditForm>
+    </div>
+</section>
+
+@code {
+    private List<ProjectAdminDto>? projects;
+    private CreateProjectDto newProject = new();
+    private bool isLoading = true;
+    private bool isEditing = false;
+    private bool isSubmitting = false;
+    private IBrowserFile? selectedFile;
+    private string? currentImage;
+    private string tagInput = string.Empty;
+
+    #region Load
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProjectsAsync();
+
+    }
+
+
+    [JSInvokable]
+    public void OnEditorContentChanged(string data)
+    {
+        newProject.Body = data;
+    }
+
+    private async Task LoadProjectsAsync()
+    {
+        isLoading = true;
+        projects = await ProjectService.GetAllProjectsAdminAsync();
+        isLoading = false;
+    }
+    #endregion
+
+    #region Tags
+    private void AddTag()
+    {
+        if (string.IsNullOrWhiteSpace(tagInput))
+            return;
+
+        newProject.Tags ??= new List<string>();
+
+        if (!newProject.Tags.Contains(tagInput.Trim(), StringComparer.OrdinalIgnoreCase))
+            newProject.Tags.Add(tagInput.Trim());
+
+        tagInput = string.Empty;
+    }
+
+    private void RemoveTag(string tag)
+    {
+        newProject.Tags?.Remove(tag);
+    }
+    #endregion
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+
+        if (selectedFile != null)
+        {
+            // حداقل بین 5 تا 10 مگابایت
+            using var stream = selectedFile.OpenReadStream(10 * 1024 * 1024);
+            var buffer = new byte[selectedFile.Size];
+            await stream.ReadAsync(buffer);
+
+            // آپدیت currentImage برای نمایش فوری
+            currentImage = $"data:{selectedFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
+        }
+    }
+
+    private async Task SubmitProjectAsync()
+    {
+        isSubmitting = true;
+
+        try
+        {
+            var content = new MultipartFormDataContent();
+
+            // ✅ عکس جدید
+            if (selectedFile != null)
+            {
+                var stream = selectedFile.OpenReadStream(10 * 1024 * 1024);
+                var fileContent = new StreamContent(stream);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+                content.Add(fileContent, "Images", selectedFile.Name);
+            }
+            // ✅ اگر عکس جدید انتخاب نشده ولی در حالت ویرایش تصویر قبلی داریم → همان را ارسال کن
+            else if (isEditing && !string.IsNullOrEmpty(currentImage) && currentImage.Contains(","))
+            {
+                var base64 = currentImage.Split(',')[1];
+                var bytes = Convert.FromBase64String(base64);
+
+                // تشخیص نوع تصویر (JPEG یا PNG)
+                var contentType = currentImage.StartsWith("data:image/png") ? "image/png" : "image/jpeg";
+                var extension = contentType == "image/png" ? ".png" : ".jpg";
+
+                var byteContent = new ByteArrayContent(bytes);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+
+                content.Add(byteContent, "Images", "existing_image" + extension);
+            }
+
+            // ✅ در حالت ویرایش باید Id اضافه شود
+            if (isEditing)
+            {
+                content.Add(new StringContent(newProject.Id.ToString()), "Id");
+            }
+
+            // ✅ رشته‌ها
+            content.Add(new StringContent(newProject.Title ?? ""), "Title");
+            content.Add(new StringContent(newProject.Decription ?? ""), "Decription");
+
+            // ✅ متن CKEditor
+            if (!string.IsNullOrWhiteSpace(newProject.Body))
+                content.Add(new StringContent(newProject.Body ?? "", Encoding.UTF8, "text/plain"), "Body");
+
+            // ✅ وضعیت پروژه
+            content.Add(new StringContent(((int)newProject.ProjectState).ToString()), "ProjectState");
+
+            // ✅ تاریخ تکمیل
+            if (newProject.CompletionDate.HasValue)
+                content.Add(new StringContent(newProject.CompletionDate.Value.ToString("o")), "CompletionDate");
+
+            // ✅ تگ‌ها
+            if (newProject.Tags != null)
+            {
+                foreach (var tag in newProject.Tags)
+                    content.Add(new StringContent(tag), "Tags");
+            }
+
+            // ارسال به سرور
+            bool result;
+            if (isEditing)
+            {
+                await JS.InvokeVoidAsync("console.log", $"Title: {newProject.Title}, Desc: {newProject.Decription}");
+                result = await ProjectService.UpdateProjectAsync(content);
+            }
+            else
+            {
+                result = await ProjectService.AddProjectAsync(content);
+            }
+
+            if (result)
+            {
+                await LoadProjectsAsync();
+                newProject = new();
+                selectedFile = null;
+                currentImage = null;
+                isEditing = false;
+            }
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private async void EditProject(long id)
+    {
+        var detail = await ProjectService.GetProjectDetailAsync(id);
+        if (detail == null)
+            return;
+
+        newProject = new CreateProjectDto
+        {
+            Id = detail.Id,
+            Title = detail.Title ?? "",
+            Decription = detail.Decription ?? "",
+            Body = detail.Body ?? "",
+            ProjectState = detail.ProjectState,
+            CompletionDate = detail.CompletionDate,
+            Tags = detail.Tags?.ToList() ?? new List<string>()
+        };
+
+
+        currentImage = detail.ImageBase64;
+        selectedFile = null;
+        isEditing = true;
+
+        StateHasChanged(); // برای آپدیت رابط کاربری
+    }
+
+
+    private async Task DeleteProject(long id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "آیا مطمئن هستید می‌خواهید این پروژه حذف شود؟");
+        if (!confirmed) return;
+        var result = await ProjectService.DeleteProjectAsync(id);
+        if (result)
+            await LoadProjectsAsync();
+    }
+    private void CancelEdit()
+    {
+        newProject = new CreateProjectDto();
+        selectedFile = null;
+        currentImage = null;
+        isEditing = false;
+    }
+    private async Task ToggleShow(ProjectAdminDto item, ChangeEventArgs e)
+    {
+        bool oldValue = item.ShowOnSite;
+
+        // تبدیل مقدار ورودی به bool
+        var val = e.Value?.ToString()?.ToLower();
+        bool newValue = val == "true" || val == "on";
+
+        item.ShowOnSite = newValue;
+
+        var result = await ProjectService.ShowOn(item.Id, newValue);
+
+        if (!result)
+        {
+            // اگر API خطا داد، مقدار قبلی را برگردان
+            item.ShowOnSite = oldValue;
+        }
+    }
+}

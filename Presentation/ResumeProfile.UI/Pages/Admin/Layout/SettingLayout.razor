@@ -1,0 +1,165 @@
+﻿@page "/admin/settings"
+@using ResumeProfile.UI.Models.ApplicationSettingDtos
+@inject AppSettingService AppSettingService
+@inject IJSRuntime JS
+
+<section id="settings" class="content-section">
+    <h2>تنظیمات پروفایل</h2>
+
+    @if (isLoading)
+    {
+        <p>در حال بارگذاری...</p>
+    }
+    else
+    {
+        <EditForm Model="@settingModel" OnValidSubmit="SubmitAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="add-project-form">
+                <div class="form-group">
+                    <label>نام:</label>
+                    <InputText class="form-control" @bind-Value="settingModel.FirstName" />
+                </div>
+
+                <div class="form-group">
+                    <label>نام خانوادگی:</label>
+                    <InputText class="form-control" @bind-Value="settingModel.LastName" />
+                </div>
+            </div>
+
+            <div class="add-project-form">
+                <div class="form-group">
+                    <label>حرفه:</label>
+                    <InputText class="form-control" @bind-Value="settingModel.Profession" />
+                </div>
+                <div class="form-group">
+                    <label>ایمیل:</label>
+                    <InputText class="form-control" @bind-Value="settingModel.Email" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>درباره من:</label>
+                <InputTextArea class="form-control" @bind-Value="settingModel.AboutMe" rows="3" />
+            </div>
+
+            
+
+            <div class="form-group">
+                <label>لایسنس:</label>
+                <InputText class="form-control" @bind-Value="settingModel.License" />
+                <button class="@(IsLicenseValid() ? "btn btn-success btn-sm" : "btn btn-warning btn-sm")"
+                        disabled="@IsLicenseValid()">
+                    @(IsLicenseValid() ? "لایسنس معتبر است ✔" : "بررسی لایسنس")
+                </button>
+
+            </div>
+
+
+            <div class="form-group">
+                <label>تصویر پروفایل:</label>
+
+                <img src="@currentImage" width="150" class="rounded mb-2 border" />
+
+                <InputFile OnChange="OnFileChange" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3 submit-btn">
+                ذخیره تغییرات
+            </button>
+        </EditForm>
+    }
+
+</section>
+
+@code {
+    private ApplicationSettingDto? setting;
+    private UpdateApplicationSettingDto settingModel = new();
+    private string? currentImage;
+    private bool isLoading = true;
+    private IBrowserFile? selectedFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSettingAsync();
+    }
+
+    private async Task LoadSettingAsync()
+    {
+        isLoading = true;
+
+        setting = await AppSettingService.GetAsync();
+
+        if (setting != null)
+        {
+            settingModel = new UpdateApplicationSettingDto
+            {
+                Id = setting.Id,
+                FirstName = setting.FirstName,
+                LastName = setting.LastName,
+                Profession = setting.Profession,
+                AboutMe = setting.AboutMe,
+                Email = setting.Email,
+                License = setting.License,
+                LicenseValid = setting.LicenseValid
+            };
+
+            if (setting.ProfileImageBase64 != null)
+                currentImage = setting.ProfileImageBase64;
+        }
+
+        isLoading = false;
+    }
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+
+        if (selectedFile != null)
+        {
+            // حداقل بین 5 تا 10 مگابایت
+            using var stream = selectedFile.OpenReadStream(10 * 1024 * 1024);
+            var buffer = new byte[selectedFile.Size];
+            await stream.ReadAsync(buffer);
+
+            // آپدیت currentImage برای نمایش فوری
+            currentImage = $"data:{selectedFile.ContentType};base64,{Convert.ToBase64String(buffer)}";
+        }
+    }
+
+
+    private async Task SubmitAsync()
+    {
+        isLoading = true;
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(settingModel.Id.ToString()), "UpdateDto.Id");
+        content.Add(new StringContent(settingModel.FirstName), "UpdateDto.FirstName");
+        content.Add(new StringContent(settingModel.LastName), "UpdateDto.LastName");
+        content.Add(new StringContent(settingModel.Profession), "UpdateDto.Profession");
+        content.Add(new StringContent(settingModel.AboutMe), "UpdateDto.AboutMe");
+        content.Add(new StringContent(settingModel.Email), "UpdateDto.Email");
+        content.Add(new StringContent(settingModel.License), "UpdateDto.License");
+
+        if (selectedFile != null)
+        {
+            var stream = selectedFile.OpenReadStream(5 * 1024 * 1024);
+            var file = new StreamContent(stream);
+            file.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+
+            content.Add(file, "UpdateDto.Images", selectedFile.Name);
+        }
+
+        var ok = await AppSettingService.UpdateAsync(content);
+        isLoading = false;
+        if (ok)
+        {
+            await LoadSettingAsync();
+        }
+    }
+    private bool IsLicenseValid()
+    {
+        return settingModel.LicenseValid;
+    }
+
+}

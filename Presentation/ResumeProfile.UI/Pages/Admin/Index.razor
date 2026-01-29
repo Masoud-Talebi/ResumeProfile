@@ -1,0 +1,23 @@
+﻿@page "/Admin"
+@using Microsoft.AspNetCore.Authorization
+@layout AdminLayout
+@attribute [Authorize]
+<ResumeProfile.UI.Pages.Admin.Layout.DashboardLayout/>
+<ResumeProfile.UI.Pages.Admin.Layout.ProjectLayout/>
+<ResumeProfile.UI.Pages.Admin.Layout.SkillLayout />
+<ResumeProfile.UI.Pages.Admin.Layout.SecurityLayout />
+<ResumeProfile.UI.Pages.Admin.Layout.SettingLayout/>
+<ResumeProfile.UI.Pages.Admin.Layout.CertificateLayout />
+@inject IJSRuntime JS
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // کمی تاخیر بده تا DOM کامل ساخته بشه
+            await Task.Delay(100);
+            await JS.InvokeVoidAsync("adminPanelScripts.init");
+        }
+    }
+
+}

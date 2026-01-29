@@ -1,0 +1,204 @@
+﻿@page "/admin/skills"
+@using ResumeProfile.UI.Models.SkillDtos
+@inject SkillService SkillService
+@inject IJSRuntime JS
+
+<section id="skill" class="content-section">
+    <h2>مدیریت مهارت‌ها</h2>
+
+    <div class="mb-3">
+        <button class="btn btn-primary submit-btn" @onclick="ShowAddForm">افزودن مهارت جدید</button>
+    </div>
+    
+
+    <div class="table-container">
+        <table class="projects-table">
+            <thead>
+                <tr>
+                    <th>شناسه</th>
+                    <th>نام مهارت</th>
+                    <th>سطح</th>
+                    <th>نمایش در صفحه اصلی</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (isLoading)
+                {
+                    <p>در حال بارگذاری...</p>
+                }
+                else if (skills == null || skills.Count == 0)
+                {
+                    <p>هیچ مهارتی یافت نشد.</p>
+                }
+                else
+                {
+                    @foreach (var skill in skills)
+                    {
+                        <tr>
+                            <td>@skill.Id</td>
+                            <td>@skill.Name</td>
+                            <td>@skill.Level</td>
+                            <td class="text-center">
+                                <label class="toggle-switch">
+                                    <input type="checkbox"
+                                           checked="@skill.ShowOnSite"
+                                           @onchange="@(e => ToggleShow(skill, e))" />
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+
+
+                            <td>
+                                <button class="action-btn edit-btn" @onclick="() => ShowEditForm(skill)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" @onclick="() => DeleteSkill(skill.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+                
+            </tbody>
+        </table>
+    </div>
+
+    @if (showForm)
+    {
+        <div class="card p-3 mt-3">
+            <h5>@(editMode ? "ویرایش مهارت" : "افزودن مهارت جدید")</h5>
+
+            <EditForm Model="@skillModel" OnValidSubmit="SubmitSkillAsync">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-2">
+                    <label>نام مهارت:</label>
+                    <InputText class="form-control" @bind-Value="skillModel.Name" />
+                </div>
+
+                <div class="mb-2">
+                    <label>سطح مهارت (1 تا 100):</label>
+                    <div class="skill-range-container">
+                        <input type="range" class="skill-range"
+                               min="1" max="100" step="1"
+                               @bind="skillModel.Level" />
+                        <span>@skillModel.Level</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success me-2 submit-btn">
+                    @(editMode ? "ذخیره تغییرات" : "افزودن")
+                </button>
+                <button type="button" class="btn btn-secondary " @onclick="CancelForm">انصراف</button>
+            </EditForm>
+        </div>
+    }
+</section>
+
+@code {
+    private List<SkillDto> skills = new();
+    private bool isLoading = true;
+
+    private bool showForm = false;
+    private bool editMode = false;
+
+    private CreateSkillDto skillModel = new();
+    private long editingSkillId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSkillsAsync();
+    }
+
+    private async Task LoadSkillsAsync()
+    {
+        isLoading = true;
+        skills = await SkillService.GetAllAsync();
+        isLoading = false;
+    }
+
+    private void ShowAddForm()
+    {
+        skillModel = new CreateSkillDto();
+        editMode = false;
+        showForm = true;
+    }
+
+    private void ShowEditForm(SkillDto skill)
+    {
+        skillModel = new CreateSkillDto
+        {
+            Name = skill.Name,
+            Level = skill.Level
+        };
+        editingSkillId = skill.Id;
+        editMode = true;
+        showForm = true;
+    }
+
+    private void CancelForm()
+    {
+        showForm = false;
+    }
+
+    private async Task SubmitSkillAsync()
+    {
+        if (editMode)
+        {
+            var updateDto = new UpdateSkillDto
+            {
+                Id = editingSkillId,
+                Name = skillModel.Name,
+                Level = skillModel.Level
+            };
+            var ok = await SkillService.UpdateAsync(updateDto);
+            if (ok)
+                await JS.InvokeVoidAsync("alert", "ویرایش با موفقیت انجام شد!");
+        }
+        else
+        {
+            var id = await SkillService.CreateAsync(skillModel);
+            if (id.HasValue)
+                await JS.InvokeVoidAsync("alert", "مهارت جدید با موفقیت اضافه شد!");
+        }
+
+        showForm = false;
+        await LoadSkillsAsync();
+    }
+
+    private async Task DeleteSkill(long id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "آیا مطمئن هستید می‌خواهید این مهارت حذف شود؟");
+        if (!confirmed) return;
+
+        var ok = await SkillService.DeleteAsync(id);
+        if (ok)
+            await LoadSkillsAsync();
+    }
+
+    private async Task ToggleShow(SkillDto item, ChangeEventArgs e)
+    {
+        bool oldValue = item.ShowOnSite;
+
+        // تبدیل مقدار ورودی به bool
+        var val = e.Value?.ToString()?.ToLower();
+        bool newValue = val == "true" || val == "on";
+
+        item.ShowOnSite = newValue;
+
+        var result = await SkillService.ShowOn(item.Id, newValue);
+
+        if (!result)
+        {
+            // اگر API خطا داد، مقدار قبلی را برگردان
+            item.ShowOnSite = oldValue;
+        }
+    }
+
+
+
+
+}

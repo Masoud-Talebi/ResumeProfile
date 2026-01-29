@@ -1,0 +1,9 @@
+﻿@inject NavigationManager Navigation
+
+@code {
+    protected override void OnInitialized()
+    {
+        // کاربر لاگین نیست → بفرستش به صفحه Login
+        Navigation.NavigateTo("/login", true);
+    }
+}

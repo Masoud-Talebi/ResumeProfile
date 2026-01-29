@@ -1,0 +1,65 @@
+﻿@page "/projectdetail/{ProjectId:long}"
+@using ResumeProfile.UI.Models.ProjectDtos
+@inject ProjectService ProjectService
+@if (project == null)
+{
+    <p>در حال بارگذاری...</p>
+}
+else
+{
+    <article id="project-detail" class="container section-padding">
+
+        <section class="project-hero mb-5" data-delay="0.2">
+
+            <figure class="project-image-container " data-delay="0.4">
+                <div class="project-info-overlay">
+                    <h2 class="project-title fw-bold">@project.Title</h2>
+                    <p class="project-date">تاریخ تکمیل: بهار ۱۴۰۳</p>
+                </div>
+                <img style="border-radius:7px;width:70%" src="@(string.IsNullOrWhiteSpace(project.ImageBase64) || project.ImageBase64 == "data:image/jpg;base64,"
+                                                                                                          ? "Image-not-found.png"
+                                                                                                          : project.ImageBase64)" alt="تصویر اصلی پروژه @project.Title" class="img-fluid project-main-image rounded-xl shadow-soft">
+            </figure>
+        </section>
+
+        <section class="project-details-content" data-delay="0.4">
+
+            <div class="details-text">
+                @((MarkupString)project.Body)
+            </div>
+            <br />
+            <br />
+            <div class="technologies-used mt-5">
+                <h3 class="details-heading mb-3">ابزارها و تکنولوژی‌ها</h3>
+                <div class="tech-badges-container">
+                    <ul>
+                        @foreach (var i in project.Tags)
+                        {
+                            <li class="tech-badge-item">@i</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div style="margin-top:20px" class="text-center mt-6" data-delay="0.6">
+            <a href="./" class="button-primary button-large hover-scale-up">
+                <i class="fas fa-arrow-right me-2"></i> بازگشت به لیست پروژه‌ها
+            </a>
+        </div>
+
+    </article>
+}
+
+@code {
+    private ProjectDetailDto? project;
+
+    [Parameter]
+    public long ProjectId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        project = await ProjectService.GetProjectDetailAsync(ProjectId);
+    }
+}
+   
